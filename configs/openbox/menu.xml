@@ -236,49 +236,42 @@
 		<item label="Base">
 			<action name="Execute">
 				<command>
-					ooffice -base
+					lobase
 				</command>
 			</action>
 		</item>
 		<item label="Calc">
 			<action name="Execute">
 				<command>
-					ooffice -calc
+					localc
 				</command>
 			</action>
 		</item>
 		<item label="Draw">
-			<action name="Execute">
+			<action name="Execute">writer
 				<command>
-					ooffice -draw
+					lodraw
 				</command>
 			</action>
 		</item>
 		<item label="Impress">
 			<action name="Execute">
 				<command>
-					ooffice -impress
+					loimpress
 				</command>
 			</action>
 		</item>
 		<item label="Math">
 			<action name="Execute">
 				<command>
-					ooffice -math
+					lomath
 				</command>
 			</action>
 		</item>
-		<!--<item label="OpenOffice Printer Administration">
-			<action name="Execute">
-				<command>
-					ooffice-printeradmin
-				</command>
-			</action>
-		</item>-->
 		<item label="Writer">
 			<action name="Execute">
 				<command>
-					ooffice -writer
+					lowriter
 				</command>
 			</action>
 		</item>
@@ -307,13 +300,6 @@
 		</item>
 	</menu>
 	<menu id="apps-work-menu" label="Work">
-		<item label="Bless">
-			<action name="Execute">
-				<command>
-					bless
-				</command>
-			</action>
-		</item>
 		<item label="Diagram Editor">
 			<action name="Execute">
 				<command>
@@ -325,13 +311,6 @@
 			<action name="Execute">
 				<command>
 					geany
-				</command>
-			</action>
-		</item>
-		<item label="Giggle">
-			<action name="Execute">
-				<command>
-					giggle
 				</command>
 			</action>
 		</item>
@@ -398,47 +377,5 @@
                 <menu id="pipe-network" label="Network" execute="sudo /home/mirciulica/bin/pipe_network" />
                 <menu id="pipe-wifi" label="Wifi" execute="sudo /home/mirciulica/bin/pipe_wifi wlan0" />
                 <menu id="info" label="sysInfo" execute="sh /home/mirciulica/bin/pipe_sysinfo" />
-                <menu id="weather" label="Weather" execute="/home/mirciulica/bin/pipe_weather Bucharest en" />
-                <!--<separator/>
-		<menu id="menu-813550" label="Session">
-			<item label="Lock"> 
-				<action name="Execute"> 
-					<execute>
-						xscreensaver-command -lock
-					</execute> 
-				</action> 
-			</item>
-			<item label="Logout"> 
-				<action name="Exit"/> 
-			</item>
-			<item label="Reboot"> 
-				<action name="Execute"> 
-					<execute>
-						sudo shutdown -r now
-					</execute> 
-				</action> 
-			</item>
-			<item label="Poweroff"> 
-				<action name="Execute"> 
-					<execute>
-						sudo shutdown -h now 
-					</execute> 
-				</action> 
-			</item>
-			<item label="Hibernate"> 
-				<action name="Execute">
-					<execute>
-						sudo pm-hibernate
-					</execute> 
-				</action> 
-			</item>
-			<item label="Suspend"> 
-				<action name="Execute"> 
-					<execute>
-						sudo pm-suspend
-					</execute> 
-				</action> 
-			</item>
-                </menu>-->
 	</menu>
 </openbox_menu>
