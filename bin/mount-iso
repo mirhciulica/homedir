@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# nautilus-mount-iso
+# mount-iso script for file managers like nautilus or thunar
 isopath=$*
 isoname=`basename "$*" 2> /dev/null`
 mpath="/media/$isoname/"

@@ -1,7 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# unfinished script
+"""
+Feature full netcfg management script for openbox
+mirhciulica 2011
+
+requires:
+    netcfg
+    NOPASSWD entries for this and netcfg through visudo
+
+changelog
+    01.2011
+      + initial work for openbox menu output
+"""
+
 
 from getopt import getopt, GetoptError
 from subprocess import Popen, PIPE

@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# umount-iso script for file managers like nautilus or thunar
 isoname=`basename "$*" 2> /dev/null`
 for I in "$*"
 do
