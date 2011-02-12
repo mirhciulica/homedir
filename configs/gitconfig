@@ -1,0 +1,12 @@
+[user]
+	name = Mircea Ştefan Ghideu
+	email = mirhciulica@archlinux.us
+[color]
+	ui = auto
+	page = true
+[giggle]
+	main-window-maximized = false
+	main-window-geometry = 1241x598+63+6
+	main-window-view = HistoryView
+	history-view-vpane-position = 318
+	file-view-vpane-position = 542

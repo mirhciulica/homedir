@@ -1,0 +1,164 @@
+" Created 05.11.2009 by mirhciulica
+set wildmenu
+set wildmode=list:longest,full
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set mouse=a             " make sure mouse is used in all cases.
+set showmatch           " show matching brackets (),{},[]
+set number
+set incsearch
+set smartcase
+set bg=dark
+filetype plugin indent on
+setlocal tw=78
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
+
+" don't blink the screen
+set novb
+
+" highlight redundant whitespaces and tabs.
+"highlight RedundantSpaces ctermbg=red guibg=red
+"match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
+
+set t_Co=256
+colorscheme molokai-transparent
+
+" tab navigation like firefox
+nmap <C-S-tab> :tabprevious<cr>
+nmap <C-tab> :tabnext<cr>
+map <C-S-tab> :tabprevious<cr>
+map <C-tab> :tabnext<cr>
+imap <C-S-tab> <ESC>:tabprevious<cr>i
+imap <C-tab> <ESC>:tabnext<cr>i
+nmap <C-t> :tabnew<cr>
+imap <C-t> <ESC>:tabnew<cr> 
+" map \tx for the console version as well
+if !has("gui_running")
+   nmap <Leader>tn :tabnext<cr>
+   nmap <Leader>tp :tabprevious<cr>
+   nmap <Leader><F4> :tabclose<cr>
+end
+
+
+"
+" Enable spellchecking conditionally
+"
+map <Leader>se :setlocal spell spelllang=en_us<CR>
+map <Leader>ss :setlocal spell spelllang=ro<CR>
+map <Leader>sn :setlocal nospell<CR>
+
+" 
+" Configure tabs for the console version
+"
+function MyTabLine()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    " select the highlighting
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " set the tab page number (for mouse clicks)
+    let s .= '%' . (i + 1) . 'T'
+
+    " the label is made by MyTabLabel()
+    let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+  endfor
+
+  " after the last tab fill with TabLineFill and reset tab page nr
+  let s .= '%#TabLineFill#%T'
+
+  " right-align the label to close the current tab page
+  if tabpagenr('$') > 1
+    let s .= '%=%#TabLine#%999Xclose'
+  endif
+
+  return s
+endfunction
+
+function MyTabLabel(n)
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  return bufname(buflist[winnr - 1])
+endfunction
+
+
+" Added from Vlad Dogaru on 06.03.2010
+"
+" for reading commands from comments
+set modeline
+
+" Mapping from usenet
+imap jj <Esc>
+
+autocmd FileType text setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType java 	setlocal tw=78 cin foldmethod=marker
+autocmd FileType c,cpp 	setlocal tw=72 cindent noexpandtab
+autocmd FileType python setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType haskell setlocal tw=72 sw=2 sts=2 et
+autocmd FileType tex	 setlocal tw=72 sw=2 sts=2 ai
+autocmd FileType tex	 so ~/.vim/abbrevs.vim
+autocmd FileType php	 setlocal tw=80 cindent fo=croql expandtab sts=4 sw=4
+autocmd FileType html setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType xml setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType actionscript setlocal autoindent sts=4 sw=4 tw=100
+autocmd BufRead,BufNewFile *.wiki setlocal ft=creole
+autocmd BufRead,BufNewFile *.tex setlocal ft=tex
+autocmd BufRead,BufNewFile *.cool setlocal ft=cool
+autocmd BufRead,BufNewFile *.cl setlocal ft=cool
+autocmd BufRead,BufNewFile *.miC setlocal ft=C
+autocmd BufRead,BufNewFile *.g setlocal ft=antlr
+autocmd BufRead,BufNewFile *.as setlocal ft=actionscript
+
+set autowrite
+
+" quick fixing
+nnoremap <Tab> :cnext<Cr>
+nnoremap <S-Tab> :cprev<Cr>
+nnoremap <F9> :make<Cr>
+
+if has("cscope")
+        " Look for a 'cscope.out' file starting from the current directory,
+        " going up to the root directory.
+        let s:dirs = split(getcwd(), "/")
+        while s:dirs != []
+                let s:path = "/" . join(s:dirs, "/")
+                if (filereadable(s:path . "/cscope.out"))
+                        execute "cs add " . s:path . "/cscope.out " . s:path . " -v"
+                        break
+                endif
+                let s:dirs = s:dirs[:-2]
+        endwhile
+
+        set csto=0	" Use cscope first, then ctags
+        set cst		" Only search cscope
+        set csverb	" Make cs verbose
+
+        nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+        nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+        nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+        " Open a quicfix window for the following queries.
+        set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
+endif
+
+" Max 20 tabs
+set tabpagemax=20

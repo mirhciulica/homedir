@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+        <menu id="apps-appearance-menu" label="Appearance">
+		<item label="LXAppearance">
+			<action name="Execute">
+				<execute>
+					lxappearance
+				</execute>
+			</action>
+		</item>
+		<item label="Nitrogen">
+			<action name="Execute">
+				<execute>
+					nitrogen --sort=rtime
+				</execute>
+			</action>
+		</item>
+		<item label="NVidia">
+			<action name="Execute">
+				<execute>
+					nvidia-settings
+				</execute>
+			</action>
+                    </item>
+                <item label="OBconf">
+			<action name="Execute">
+				<command>
+					obconf
+				</command>
+			</action>
+		</item>
+		<separator/>
+		<item label="Reconfigure Openbox">
+			<action name="Reconfigure"/>
+		</item>
+        </menu>
+	<menu id="apps-accessories-menu" label="Accessories">
+		<item label="Brasero">
+			<action name="Execute">
+				<command>
+					brasero
+				</command>
+			</action>
+		</item>
+                <item label="Bulk Rename">
+			<action name="Execute">
+				<command>
+					thunar -B
+				</command>
+			</action>
+		</item>
+		<item label="SpeedCrunch">
+			<action name="Execute">
+				<command>
+					speedcrunch
+				</command>
+			</action>
+		</item>
+		<item label="Character Map">
+			<action name="Execute">
+				<command>
+					gucharmap	
+				</command>
+			</action>
+		</item>
+		<item label="Dropbox">
+			<action name="Execute">
+				<command>
+					dropboxd	
+				</command>
+			</action>
+		</item>
+		<item label="Squeeze">
+			<action name="Execute">
+				<command>
+					file-roller
+				</command>
+			</action>
+		</item>
+                <separator />
+		<item label="GParted">
+			<action name="Execute">
+				<command>
+					gksu gparted
+				</command>
+			</action>
+		</item>
+		<item label="Printers">
+			<action name="Execute">
+				<command>
+					xdg-open http://localhost:631/
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-games-menu" label="Games">
+		<item label="HedgeWars">
+			<action name="Execute">
+				<command>
+					hedgewars
+				</command>
+			</action>
+		</item>
+		<item label="PokerTH">
+			<action name="Execute">
+				<command>
+					pokerth
+				</command>
+			</action>
+		</item>
+		<item label="PySol">
+			<action name="Execute">
+				<command>
+					pysol
+				</command>
+			</action>
+		</item>
+		<item label="SuperTuxKart">
+			<action name="Execute">
+				<command>
+					supertuxkart
+				</command>
+			</action>
+		</item>
+		<item label="WorldOfGoo">
+			<action name="Execute">
+				<command>
+					sh /opt/WorldOfGoo/WorldOfGoo
+				</command>
+			</action>
+		</item>
+		<item label="Xmoto">
+			<action name="Execute">
+				<command>
+					xmoto
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-multimedia-menu" label="Media">
+		<item label="Mixer">
+			<action name="Execute">
+				<command>
+					xfce4-mixer
+				</command>
+			</action>
+		</item>
+		<item label="SMPlayer">
+			<action name="Execute">
+				<command>
+					smplayer
+				</command>
+			</action>
+		</item>
+		<item label="Sonata">
+			<action name="Execute">
+				<command>
+					sonata	
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-net-menu" label="Internet">
+		<item label="Claws-Mail">
+			<action name="Execute">
+				<command>
+					claws-mail
+				</command>
+			</action>
+		</item>
+		<item label="Firefox">
+			<action name="Execute">
+				<command>
+					firefox
+				</command>
+			</action>
+		</item>
+		<item label="FileZilla">
+			<action name="Execute">
+				<execute>
+					filezilla
+				</execute>
+			</action>
+		</item>
+		<item label="Google Chrome">
+			<action name="Execute">
+				<command>
+					chromium
+				</command>
+			</action>
+		</item>
+		<item label="Linux dc++">
+			<action name="Execute">
+				<execute>
+					linuxdcpp
+				</execute>
+			</action>
+		</item>
+		<item label="Minitube">
+			<action name="Execute">
+				<execute>
+					minitube
+				</execute>
+			</action>
+		</item>
+		<item label="Pidgin">
+			<action name="Execute">
+				<command>
+					pidgin
+				</command>
+			</action>
+		</item>
+		<item label="Skype">
+			<action name="Execute">
+				<execute>
+					skype --style-GTK
+				</execute>
+			</action>
+		</item>
+		<item label="Transmission">
+			<action name="Execute">
+				<execute>
+					transmission-gtk
+				</execute>
+			</action>
+                </item>
+                    <item label="Wireshark">
+			<action name="Execute">
+				<command>
+					wireshark
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-office-menu" label="Office">
+		<item label="Base">
+			<action name="Execute">
+				<command>
+					ooffice -base
+				</command>
+			</action>
+		</item>
+		<item label="Calc">
+			<action name="Execute">
+				<command>
+					ooffice -calc
+				</command>
+			</action>
+		</item>
+		<item label="Draw">
+			<action name="Execute">
+				<command>
+					ooffice -draw
+				</command>
+			</action>
+		</item>
+		<item label="Impress">
+			<action name="Execute">
+				<command>
+					ooffice -impress
+				</command>
+			</action>
+		</item>
+		<item label="Math">
+			<action name="Execute">
+				<command>
+					ooffice -math
+				</command>
+			</action>
+		</item>
+		<!--<item label="OpenOffice Printer Administration">
+			<action name="Execute">
+				<command>
+					ooffice-printeradmin
+				</command>
+			</action>
+		</item>-->
+		<item label="Writer">
+			<action name="Execute">
+				<command>
+					ooffice -writer
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-term-menu" label="Terminals">
+		<item label="URxvt">
+			<action name="Execute">
+				<command>
+					urxvt
+				</command>
+			</action>
+		</item>
+		<item label="URxvt tabbed">
+			<action name="Execute">
+				<command>
+					urxvt -pe tabbed
+				</command>
+			</action>
+		</item>
+		<item label="URxvtTMux">
+			<action name="Execute">
+				<command>
+                    /home/mirciulica/bin/toggleURxvtTMux
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="apps-work-menu" label="Work">
+		<item label="Bless">
+			<action name="Execute">
+				<command>
+					bless
+				</command>
+			</action>
+		</item>
+		<item label="Diagram Editor">
+			<action name="Execute">
+				<command>
+					dia
+				</command>
+			</action>
+		</item>
+		<item label="Geany">
+			<action name="Execute">
+				<command>
+					geany
+				</command>
+			</action>
+		</item>
+		<item label="Giggle">
+			<action name="Execute">
+				<command>
+					giggle
+				</command>
+			</action>
+		</item>
+		<item label="GVim">
+			<action name="Execute">
+				<command>
+					gvim
+				</command>
+			</action>
+		</item>
+		<item label="Matlab">
+			<action name="Execute">
+				<command>
+					/opt/MatlabR2009b/bin/matlab -desktop
+				</command>
+			</action>
+		</item>
+		<menu id="VirtualBox-machines" label="VirtualBox">
+			<item label="2003">
+				<action name="Execute">
+					<command>
+						VirtualBox --startvm 2003
+					</command>
+				</action>
+			</item>
+			<item label="LinuxTests">
+				<action name="Execute">
+					<command>
+						VirtualBox --startvm LinuxTests
+					</command>
+				</action>
+			</item>
+		</menu>
+	</menu>
+	<menu id="apps-graphics-menu" label="Graphics">
+		<item label="Gimp">
+			<action name="Execute">
+				<command>
+					gimp
+				</command>
+			</action>
+		</item>
+	</menu>
+	<menu id="root-menu" label="mirciulica">
+		<item  id="FM" label="File Manager">
+			<action name="Execute">
+				<execute>
+					thunar /home/mirciulica
+					</execute>
+			</action>
+		</item>
+		<separator label="Applications"/>
+		<menu id="apps-appearance-menu"/>
+		<menu id="apps-accessories-menu"/>
+		<menu id="apps-games-menu"/>
+		<menu id="apps-graphics-menu"/>
+		<menu id="apps-net-menu"/>
+		<menu id="apps-multimedia-menu"/>
+		<menu id="apps-office-menu"/>
+		<menu id="apps-term-menu"/>
+		<menu id="apps-work-menu"/>
+		<separator label="Pipes"/>
+		<menu id="pipes-menu"/>
+                <menu id="pipe-network" label="Network" execute="sudo /home/mirciulica/bin/pipe_network" />
+                <menu id="pipe-wifi" label="Wifi" execute="sudo /home/mirciulica/bin/pipe_wifi wlan0" />
+                <menu id="info" label="sysInfo" execute="sh /home/mirciulica/bin/pipe_sysinfo" />
+                <menu id="weather" label="Weather" execute="/home/mirciulica/bin/pipe_weather Bucharest en" />
+                <!--<separator/>
+		<menu id="menu-813550" label="Session">
+			<item label="Lock"> 
+				<action name="Execute"> 
+					<execute>
+						xscreensaver-command -lock
+					</execute> 
+				</action> 
+			</item>
+			<item label="Logout"> 
+				<action name="Exit"/> 
+			</item>
+			<item label="Reboot"> 
+				<action name="Execute"> 
+					<execute>
+						sudo shutdown -r now
+					</execute> 
+				</action> 
+			</item>
+			<item label="Poweroff"> 
+				<action name="Execute"> 
+					<execute>
+						sudo shutdown -h now 
+					</execute> 
+				</action> 
+			</item>
+			<item label="Hibernate"> 
+				<action name="Execute">
+					<execute>
+						sudo pm-hibernate
+					</execute> 
+				</action> 
+			</item>
+			<item label="Suspend"> 
+				<action name="Execute"> 
+					<execute>
+						sudo pm-suspend
+					</execute> 
+				</action> 
+			</item>
+                </menu>-->
+	</menu>
+</openbox_menu>

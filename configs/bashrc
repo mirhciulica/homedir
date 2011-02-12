@@ -1,0 +1,161 @@
+export MOZ_DISABLE_PANGO=1
+
+
+export CDPATH=.:/opt/flex-sdk/bin:/disks/work/proiecte:/disks/downloads:~/docs/fac:~/bin:~/hacks
+
+
+# Define some colors first:
+red='\[\e[0;31m\]'
+RED='\[\e[1;31m\]'
+blue='\[\e[0;34m\]'
+BLUE='\[\e[1;34m\]'
+cyan='\[\e[0;36m\]'
+CYAN='\[\e[1;36m\]'
+NC='\[\e[0m\]'
+
+# Check for an interactive session
+[ -z "$PS1" ] && return
+eval `dircolors -b`
+
+
+#
+# Prompt
+
+if [[ "${DISPLAY%%:0*}" != "" ]]; then  
+    PS1=" ${red}[\h]${NC}[${RED} \b\W ${NC}] > "
+else
+    PS1=" ${NC}[${RED} \W ${NC}] > "
+fi
+
+
+### FUNCTIONS
+
+myip ()
+{
+lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | awk '{ print $4 }' | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' 
+}
+
+#netinfo - shows network information for your system
+netinfo ()
+{
+echo "--------------- Network Information ---------------"
+/sbin/ifconfig | awk /'inet addr/ {print $2}'
+/sbin/ifconfig | awk /'Bcast/ {print $3}'
+/sbin/ifconfig | awk /'inet addr/ {print $4}'
+/sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+myip=`lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' `
+echo "${myip}"
+echo "---------------------------------------------------"
+}
+
+#bu - Back Up a file. Usage "bu filename.txt" 
+bu () { cp $1 ${1}-`date +%d%m%Y_%H%M`.bak ; }
+
+
+# Easy extract
+extract () {
+  if [ -f $1 ] ; then
+      case $1 in
+          *.tar.bz2)   tar xvjf $1    ;;
+          *.tar.gz)    tar xvzf $1    ;;
+          *.bz2)       bunzip2 $1     ;;
+          *.rar)       rar x $1       ;;
+          *.gz)        gunzip $1      ;;
+          *.tar)       tar xvf $1     ;;
+          *.tbz2)      tar xvjf $1    ;;
+          *.tgz)       tar xvzf $1    ;;
+          *.zip)       unzip $1       ;;
+          *.Z)         uncompress $1  ;;
+          *.7z)        7z x $1        ;;
+          *)           echo "don't know how to extract '$1'..." ;;
+      esac
+  else
+      echo "'$1' is not a valid file!"
+  fi
+}
+
+# Creates an archive from given directory
+mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
+mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+
+# Define Stuff
+define () {
+lynx -dump -width=300 "http://www.google.com/search?hl=en&q=define%3A+${1}&btnG=Google+Search" | grep -m 5 -w "*"  | sed 's/;/ -/g' | cut -d- -f1 > /tmp/templookup.txt
+            if [[ -s  /tmp/templookup.txt ]] ;then    
+                until ! read response
+                    do
+                    echo "${response}"
+                    done < /tmp/templookup.txt
+                else
+                    echo "Sorry $USER, I can't find the term \"${1} \""                
+            fi    
+rm -f /tmp/templookup.txt
+}
+
+# Calculate Stuff
+calc(){ 
+	echo "$*" | bc;
+}
+
+
+
+#enable tab completition for sudoers
+complete -cf !
+
+### ALIASES 
+alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
+alias lla='ls -lah --color=auto'
+
+#grep
+export GREP_COLOR="1;33"
+alias grep='grep --color=auto'
+
+#maintenace
+alias !="sudo"
+alias install="sudo pacman-color -S"
+alias update="sudo pacman-color -Sy"
+alias upgrade="sudo pacman-color -Su"
+alias upgrade-aur="yaourt -Su --aur"
+alias remove="sudo pacman-color -Rs"
+alias search="sudo pacman-color -Ss"
+alias search-aur="yaourt -Ss --aur"
+alias install-l="sudo pacman-color -U"
+alias clean="sudo pacman-color -Scc"
+alias search-i="sudo pacman-color -Qs"
+alias clean-u="sudo pacman-color -Qqdt"
+
+alias ~='cd ~'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+alias listopenports='sudo netstat -nape --inet'
+
+alias sigkill='killall -9 $*'
+alias sigterm='killall -15 $*'
+
+alias music='ncmpcpp'
+alias wall='nitrogen ~/Pictures/wallpapers/gorgeous --sort=rtime'
+
+alias xp='xprop | grep "WM_WINDOW_ROLE\|WM_CLASS" && echo "WM_CLASS(STRING) = \"NAME\", \"CLASS\""'
+
+alias webpic='mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot'
+alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0:forceaudio:adevice=/dev/dsp -ovc lavc -oac mp3lame -lameopts cbr:br=64:mode=3 -o film.avi'
+
+#mtp stuff
+alias mount-mtp='(sudo mtpfs /media/mtp -o allow_other) && thunar /media/mtp'
+alias umount-mtp='sudo umount /media/mtp'
+
+#todos
+alias task='~/bin/task $*'
+
+#start/stop/restart services
+sstart () { sudo /etc/rc.d/$* start; }
+sstop () { sudo /etc/rc.d/$* stop; }
+srestart () { sudo /etc/rc.d/$* restart; }
+
+alias suicide="echo How dare you? Kill yourserlf!"
+

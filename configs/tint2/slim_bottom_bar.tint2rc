@@ -1,0 +1,131 @@
+#---------------------------------------------
+# TINT2 CONFIG FILE
+#---------------------------------------------
+
+#---------------------------------------------
+# BACKGROUND AND BORDER
+#---------------------------------------------
+rounded = 0 
+border_width = 1
+background_color = #3C3C3C 50
+border_color = #3C3C3C 100
+
+rounded = 0
+border_width = 1
+background_color = #8F8F8F 80
+border_color = #8F8F8F 50
+
+rounded = 0
+border_width = 1
+background_color = #3C3C3C 80 
+border_color = #3C3C3C 30
+
+rounded = 0
+border_width = 1
+background_color = #96B868 80 
+border_color = #3C3C3C 30
+
+rounded = 0
+border_width = 1
+background_color = #F5F5B6 100
+border_color = ##FFFF86 30
+
+
+#---------------------------------------------
+# PANEL
+#---------------------------------------------
+panel_monitor = all
+panel_position = bottom center
+panel_size = 99% 20
+panel_margin = 0 0
+panel_padding = 1 0
+font_shadow = 0
+panel_background_id = 1
+wm_menu = 1
+#panel_dock = 1
+panel_layer = normal
+
+#---------------------------------------------
+# TASKBAR
+#---------------------------------------------
+#taskbar_mode = multi_desktop
+taskbar_mode = single_desktop
+taskbar_padding =  0 1 1
+taskbar_background_id = 0
+
+#---------------------------------------------
+# TASKS
+#---------------------------------------------
+task_icon = 1
+task_text = 1
+task_width = 140
+task_centered = 0
+task_padding = 3 3
+task_font = Bitstream Vera Sans Roman 8
+task_font_color = #ffffff 70
+task_active_font_color = #ffffff 100
+task_icon_asb = 100 0 0
+task_urgent_font_color = #000000 90
+task_urgent_icon_asb = 100 0 0 
+task_urgent_background_id = 4
+urgent_nb_of_blink = 8
+task_background_id = 3
+task_active_background_id = 2
+
+#---------------------------------------------
+# SYSTRAYBAR
+#---------------------------------------------
+systray = 1
+systray_padding = 1 1 1
+systray_background_id = 0
+systray_sort = ascending
+systray_icon_size = 0
+systray_icon_asb = 100 0 0
+
+#---------------------------------------------
+# CLOCK
+#---------------------------------------------
+time1_format = %H:%M
+time1_font = Bitstream Vera Sans Roman 8
+#time2_format = %A, %d %B
+#time2_font = sans 5
+clock_font_color = #ffffff 70
+clock_padding = 1 3
+clock_tooltip = %a, %d. %b %Y
+clock_background_id = 0
+clock_lclick_command = orage
+clock_rclick_command = killall orage
+
+#--------------------------------------------
+# Tooltips
+#--------------------------------------------
+tooltip = 1
+tooltip_padding = 4 4
+tooltip_show_timeout = 3
+tooltip_hide_timeout = 3
+tooltip_background_id = 5
+tooltip_font_color = #000000 100
+tooltip_font = Bitstream Vera Sans Roman 8
+
+
+#---------------------------------------------
+# BATTERY
+#---------------------------------------------
+battery = 0
+battery_low_status = 10
+battery_low_cmd = notify-send "battery low"
+bat1_font = sans 8
+bat2_font = sans 6
+battery_font_color = #ffffff 76
+battery_padding = 1 0
+battery_background_id = 0
+
+
+#---------------------------------------------
+# MOUSE ACTION ON TASK
+#---------------------------------------------
+mouse_middle = close 
+mouse_right = none
+mouse_scroll_up = toggle
+mouse_scroll_down = iconify
+

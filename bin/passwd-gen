@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# borrowed from hatten on 09.2010
+# https://bbs.archlinux.org/viewtopic.php?pid=822668#p822668
+
+echo "For what do you want to make a password?"
+read name
+echo "How long?"
+read len
+pw=$(dd if=/dev/urandom count=1 2> /dev/null | uuencode -m -| sed -ne 2p | cut
+-c-$len)
+echo $name ';' $pw >> ~/password/file
+cat ~/password/file | grep $pw

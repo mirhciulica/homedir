@@ -1,0 +1,15 @@
+#!/bin/bash
+ls -l /usr/share/slim/themes/desktopbg/background.jpg > /tmp/slim-background
+simlink=`sed -e 's/.*-> //g' /tmp/slim-background`
+walllink=`sed -e 's/file=//' -e '1 d' -e '2 d' -e '4,$ d' /home/mirciulica/.config/nitrogen/bg-saved.cfg`
+if [ $simlink != $walllink ] 
+then
+	rm /usr/share/slim/themes/desktopbg/background.jpg
+	ln -s $walllink /usr/share/slim/themes/desktopbg/background.jpg
+	exit 0
+else
+	exit 1
+fi
+
+rm /tmp/slim-background
+exit 0

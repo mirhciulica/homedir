@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# nautilus-mount-iso
+isopath=$*
+isoname=`basename "$*" 2> /dev/null`
+mpath="/media/$isoname/"
+gksudo -u root -k /bin/echo "got r00t?"
+sudo mkdir -p "$mpath"
+if sudo mount -o loop -t auto "$*" "$mpath"
+then
+    thunar /media/"$isoname"
+    exit 0
+else
+    sudo rmdir /media/"$isoname"
+    exit 1
+fi

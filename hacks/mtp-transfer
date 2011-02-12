@@ -1,0 +1,45 @@
+#!/bin/bash
+fname=`basename "$*" 2> /dev/null`
+mpath=~/$fname
+qpath=$mpath/queue
+nfiles=`ls $mpath | wc -l`
+echo $nfiles files in queue
+mkdir $mpath/queue
+echo $qpath
+for file in $mpath/*
+do 
+	[ -f "$file" ] && ( mv "$file" "$(echo $file | sed -e 's/ /_/g')" )
+done
+echo encoding mp3 files
+for file in $mpath/*.mp3
+do
+	id3info $file > $mpath/trackinfo
+	title=`grep '=== TIT2 (Title/songname/content description): ' $mpath/trackinfo|sed -e 's/=== TIT2 (Title\/songname\/content description): //'`
+	artist=`grep '=== TPE1 (Lead performer(s)/Soloist(s)): ' $mpath/trackinfo|sed -e 's/=== TPE1 (Lead performer(s)\/Soloist(s)): //'`
+	album=`grep '=== TALB (Album/Movie/Show title): ' $mpath/trackinfo|sed -e 's/=== TALB (Album\/Movie\/Show title): //'`
+	track=`grep '=== TRCK (Track number/Position in set): ' $mpath/trackinfo|sed -e 's/=== TRCK (Track number\/Position in set): //'`
+	rm $mpath/trackinfo
+	lame -h -V 6 -vbr-new --quiet --id3v1-only --tt "$title" --ta "$artist" --tl "$album" --tn "$track" $file $mpath/queue/"$(basename "$file" .mp3).mp3"
+	rm $file
+done
+
+echo decoding ogg files
+for file in $mpath/*.ogg
+do 
+	ogginfo $file > $mpath/trackinfo
+	title=`grep '	TITLE=' $mpath/trackinfo|sed -e 's/	TITLE=//'`
+	artist=`grep '	ARTIST=' $mpath/trackinfo|sed -e 's/	ARTIST=//'`
+	album=`grep '	ALBUM=' $mpath/trackinfo|sed -e 's/	ALBUM=//'`
+	track=`grep '	TRACKNUMBER=' $mpath/trackinfo|sed -e 's/	TRACKNUMBER=//'`
+	rm $mpath/trackinfo
+	oggdec -Q -o - "$file" | lame -h -V 6 -vbr-new --silent --id3v1-only --tt "$title" --ta "$artist" --tl "$album" --tn "$track" - $mpath/queue/"$(basename "$file" .ogg).mp3"
+	rm $file
+done
+
+echo copying to mtp device
+for file in $qpath/*.mp3
+do
+	mtp-connect --sendfile $file
+done
+
+echo done

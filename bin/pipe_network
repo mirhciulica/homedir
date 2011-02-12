@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# unfinished script
+
+from getopt import getopt, GetoptError
+from subprocess import Popen, PIPE
+from os import listdir, path
+import sys
+
+
+profiles_path = '/etc/network.d/'
+profiles = {'ethernet':[], 'wireless':[]}
+
+def get_network_profiles():
+    profiles_array = listdir(profiles_path)
+    for profile in profiles_array:
+        profile_path = profiles_path+profile
+        if path.isdir(profile_path):
+            continue
+        file_object = open(profile_path)
+        head = file_object.readline()
+        profiles[head[12:-2]].append(profile)
+
+def get_openbox_pipe_menu():
+    output = '<openbox_pipe_menu>'
+    output += '\n<separator label="%s" />' % 'Current profile'
+    output += '\n<item label="%s" />' % current_conn()
+    if is_plugged('eth0'):
+        output += profiles_list('ethernet')
+    output += profiles_list('wireless')
+    output += '\n</openbox_pipe_menu>'
+
+    return output
+
+def is_plugged(interface):
+    carrier_file = open('/sys/class/net/%s/carrier' % interface)
+    if carrier_file.read().startswith('1'):
+        return True
+    return False
+
+def current_conn():
+    current = popen_stdout('netcfg current').decode()
+    if not len(current) == 0:
+        return current[:-1]
+    return 'none'
+
+def profiles_list(interface):
+    output = '\n<separator label="Available %s networks" />' % interface
+    for profile in profiles[interface]:
+        output += '\n<item label="%s" />' % profile
+    return output
+
+def popen_stdout(command):
+    return Popen(command, shell=True, stdout=PIPE).stdout.read()
+
+def usage():
+    print('test')
+
+if __name__ == "__main__":
+    get_network_profiles()
+    action = 'menu'
+    try:
+        opts, args = getopt(sys.argv[1:],'a:t',[])
+    except GetoptError:
+        usage()
+        # TODO why sys.exit(2)
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-a':
+            action = arg
+        if opt == '-t':
+            target = arg
+
+    if action == 'menu':
+        print(get_openbox_pipe_menu())
+

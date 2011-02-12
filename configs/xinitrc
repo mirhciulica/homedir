@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# ~/.xinitrc
+
+export OOO_FORCE_DESKTOP=gnome
+export DE=xfce
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+export EDITOR="vim"
+
+nitrogen --restore &
+xplanetFX --autostart &
+xcompmgr &
+exec dbus-launch openbox-session

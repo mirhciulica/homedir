@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mpath=/home/mirciulica/.cache/chromium/Cache
+for file in $mpath/*
+do
+    aa=`file $file --mime-type -b`
+    if [ "$aa" = "application/x-shockwave-flash" ]
+    then
+	rm "$file"
+    fi
+done;

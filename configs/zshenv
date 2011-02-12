@@ -1,0 +1,2 @@
+path=(~/bin ~/hacks $path)
+eval `dircolors -b`

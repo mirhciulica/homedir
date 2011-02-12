@@ -1,0 +1,134 @@
+# Options for Zsh
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt autocd appendhistory extendedglob notify
+setopt correct
+setopt autocd
+setopt nobanghist
+setopt noclobber
+setopt nobeep
+autoload colors zsh/terminfo
+if [[ "$terminfo[colors]" -ge 8 ]]; then
+      colors
+fi
+PROMPT=" [ %(?.%{${fg[green]}%}%B%1~%b.%{${fg[red]}%}%B%1~%b)%{${fg[default]}%} ] > "
+
+
+# Completion
+
+zstyle ':completion:*' completer _complete _ignored _match _approximate
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 3
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' prompt '%e'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zmodload -i zsh/complist
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle :compinstall filename '/home/mirciulica/.zshrc'
+autoload -U compinit
+compinit
+
+
+# Key bindings
+bindkey "\e[1~" beginning-of-line # Home
+bindkey "\e[4~" end-of-line # End
+bindkey "\e[5~" beginning-of-history # PageUp
+bindkey "\e[6~" end-of-history # PageDown
+bindkey "\e[2~" quoted-insert # Ins
+bindkey "\e[3~" delete-char # Del
+
+
+# Functions 
+
+# this command was borrowed from Hiato on 09.2010
+# https://bbs.archlinux.org/viewtopic.php?pid=823767#p823767
+mkpw () { cat /dev/urandom | tr -dc "[:print:]\n" | grep ".\{16\}" | cut -b -16 | head -n `[[ "$1" == "" ]] && echo 1 || echo "$1"`}
+
+#bu - Back Up a file. Usage "bu filename.txt" 
+bu () { cp $1 ${1}-`date +%d%m%Y_%H%M`.bak ; }
+
+# Easy extract
+extract () {
+  if [ -f $1 ] ; then
+      case $1 in
+          *.tar.bz2)   tar xvjf $1    ;;
+          *.tar.gz)    tar xvzf $1    ;;
+          *.bz2)       bunzip2 $1     ;;
+          *.rar)       rar x $1       ;;
+          *.gz)        gunzip $1      ;;
+          *.tar)       tar xvf $1     ;;
+          *.tbz2)      tar xvjf $1    ;;
+          *.tgz)       tar xvzf $1    ;;
+          *.zip)       unzip $1       ;;
+          *.Z)         uncompress $1  ;;
+          *.7z)        7z x $1        ;;
+          *)           echo "don't know how to extract '$1'..." ;;
+      esac
+  else
+      echo "'$1' is not a valid file!"
+  fi
+}
+
+# Creates an archive from given directory
+mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
+mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+
+
+# Aliases
+
+# global aliases
+alias -g L='|less' # dmesg L
+alias -g ...='../../'
+
+# suffix aliases
+alias -s py=vim
+alias -s pdf=evince
+
+# directory aliases
+hash -d down=~/Desktop/Downloads
+
+# normal aliases
+alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
+alias lla='ls -lah --color=auto'
+export GREP_COLOR="1;33"
+alias grep='grep --color=auto'
+
+# maintenace aliases
+alias !="sudo"
+alias install="sudo pacman-color -S"
+alias update="sudo pacman-color -Sy"
+alias upgrade="sudo pacman-color -Su"
+alias upgrade-aur="yaourt -Su --aur"
+alias remove="sudo pacman-color -Rs"
+alias search="sudo pacman-color -Ss"
+alias search-aur="yaourt -Ss --aur"
+alias install-l="sudo pacman-color -U"
+alias clean="sudo pacman-color -Scc"
+alias search-i="sudo pacman-color -Qs"
+alias clean-u="sudo pacman-color -Qqdt"
+
+alias sigkill='killall -9 $*'
+alias sigterm='killall -15 $*'
+
+alias music='ncmpcpp'
+alias wall='nitrogen ~/Pictures/wallpapers/gorgeous --sort=rtime'
+
+alias xp='xprop | grep "WM_WINDOW_ROLE\|WM_CLASS" && echo "WM_CLASS(STRING) = \"NAME\", \"CLASS\""'
+
+alias webpic='mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot'
+alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0:forceaudio:adevice=/dev/dsp -ovc lavc -oac mp3lame -lameopts cbr:br=64:mode=3 -o film.avi'
+
+#mtp stuff
+alias mount-mtp='(sudo mtpfs /media/mtp -o allow_other) && thunar /media/mtp'
+alias umount-mtp='sudo umount /media/mtp'
+
+#start/stop/restart services
+sstart () { sudo /etc/rc.d/$* start; }
+sstop () { sudo /etc/rc.d/$* stop; }
+srestart () { sudo /etc/rc.d/$* restart; }
+
+alias suicide='echo "How dare you? Kill yourserlf!"'

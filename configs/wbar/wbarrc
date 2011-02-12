@@ -1,0 +1,35 @@
+# The Bar && Font
+#
+#wbarcommand="wbar -bpress -above-desk -vbar -nofont -pos right -isize 42.0 -zoomf 1.6 -falfa 60.0 -balfa 90.0 -filter 1 -fc 0xff57626e"
+
+i: /home/mirciulica/.config/wbar/iconpack/token/barback.png
+c: 
+t: 
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Home.png
+c: thunar
+t: Thunar
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Dropbox.png
+c: dropboxd
+t: Dropbox
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Chrome.png
+c: chromium
+t: Google Chrome
+
+i: /home/mirciulica/.config/wbar/iconpack/token/E-Mail.png
+c: claws-mail
+t: Claws-mail
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Skype.png
+c: skype
+t: skype
+
+i: /home/mirciulica/.config/wbar/iconpack/token/uTorrent.png
+c: transmission-gtk
+t: Transmission
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Media-Player.png
+c: smplayer
+t: SMPlayer

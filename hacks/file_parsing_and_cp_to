@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#For loop uses $IFS variable to determine what the field separators are. By default $IFS is set to the space character.
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+for i in `cat .mpd/playlists/4mp4.m3u`
+do
+	cp "$(echo $i | sed -e 's/ /\ /g')" mp3/"$(basename "$i" 2> /dev/null)"
+done
+IFS=$SAVEIFS

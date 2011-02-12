@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ps -ef | grep /usr/bin/oblogout | grep -v grep > /dev/null
+then
+	exit 0
+else
+	oblogout
+	exit 1
+fi

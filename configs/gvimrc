@@ -1,0 +1,16 @@
+let &guicursor = &guicursor . ",a:blinkon0"
+set guioptions-=T
+aunmenu ToolBar.SaveAll
+aunmenu ToolBar.FindNext
+aunmenu ToolBar.FindPrev
+aunmenu ToolBar.-sep5-
+aunmenu ToolBar.LoadSesn
+aunmenu ToolBar.SaveSesn
+aunmenu ToolBar.RunScript
+aunmenu ToolBar.-sep6-
+aunmenu ToolBar.Make
+aunmenu ToolBar.RunCtags
+aunmenu ToolBar.TagJump
+aunmenu ToolBar.-sep7-
+aunmenu ToolBar.Help
+aunmenu ToolBar.FindHelp

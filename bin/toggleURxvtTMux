@@ -1,0 +1,18 @@
+#!/bin/bash
+# 07.2010
+# taken from Xyne. https://bbs.archlinux.org/viewtopic.php?id=71789
+
+wid=$(xdotool search --classname URxvtTMux)
+if [ -z "$wid" ]; then
+  /usr/bin/urxvt -name URxvtTMux -e /usr/bin/tmux att -t 0 &
+  wid=$(xdotool search --classname URxvtTMux)
+  xdotool windowfocus $wid
+  #xdotool key Control_L+l
+else
+  if [ -z "$(xdotool search --onlyvisible --classname URxvtTMux 2>/dev/null)" ]; then
+    xdotool windowmap $wid
+    xdotool windowfocus $wid
+  else
+    xdotool windowunmap $wid
+  fi
+fi

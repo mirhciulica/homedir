@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Location of acpi files
+BAT_STATE="/proc/acpi/battery/BAT1/state"
+BAT_INFO="/proc/acpi/battery/BAT1/info"
+
+LOG_FILE="/home/mirciulica/temp/hibernate.log"
+
+INTERVAL=60
+
+function check_battery()
+{
+    BAT_REMAIN=`awk '/remaining/ { print $3 }' $BAT_STATE` # Remaining mAh.
+    BAT_WARN=`awk '/warning/ { print $4 }' $BAT_INFO` # Warning level in mAh.
+
+    echo '-----' >> $LOG_FILE
+
+    echo $BAT_REMAIN >> $LOG_FILE
+    echo $BAT_WARN >> $LOG_FILE
+
+    if (( $BAT_REMAIN < $BAT_WARN ))
+    then
+        echo '----------' >> $LOG_FILE
+        echo 'hibernating' >> $LOG_FILE
+        echo '----------' >> $LOG_FILE
+        pm-hibernate
+    fi
+}
+
+while true
+do
+    if grep -q discharging $BAT_STATE
+    then
+        check_battery &
+    fi
+    sleep $INTERVAL &
+    wait $!
+done &
+exit 0

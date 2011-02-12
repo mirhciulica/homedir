@@ -1,0 +1,117 @@
+[profiles]
+num_profiles = 1
+names[0] = Default Profile
+hosts[0] = 127.0.0.1
+ports[0] = 6600
+passwords[0] = 
+musicdirs[0] = /home/mirciulica/libraries/music/
+
+[connection]
+auto = True
+profile_num = 0
+
+[player]
+w = 421
+h = 372
+x = 186
+y = 0
+expanded = True
+withdrawn = False
+screen = 0
+covers_type = 1
+stop_on_exit = False
+initial_run = False
+sticky = False
+ontop = False
+decorated = True
+update_on_start = False
+xfade = 1
+xfade_enabled = False
+covers_pref = 1
+use_infofile = False
+infofile_path = /tmp/xmms-info
+art_location = 0
+art_location_custom_filename = 
+lyrics_location = 0
+info_song_expanded = True
+info_lyrics_expanded = True
+info_album_expanded = True
+info_song_more = False
+info_art_enlarged = False
+show_header = True
+tabs_expanded = False
+covers = True
+minimize = False
+statusbar = False
+lyrics = False
+notification = False
+popup_time = 1
+notif_location = 0
+playback = True
+progressbar = True
+trayicon = True
+search_num = 5
+existing_playlist = 1
+browser = 
+columnwidths = 344,10
+
+[notebook]
+current_tab_visible = True
+library_tab_visible = True
+playlists_tab_visible = True
+streams_tab_visible = True
+info_tab_visible = True
+current_tab_pos = 0
+library_tab_pos = 1
+playlists_tab_pos = 2
+streams_tab_pos = 3
+info_tab_pos = 4
+
+[library]
+lib_album = !NONE!
+lib_artist = !NONE!
+lib_genre = !NONE!
+lib_year = !NONE!
+lib_path = trance
+lib_view = 0
+
+[currformat]
+current = %A - %T|%L
+library = %A - %T
+title = [Sonata] %A - %T
+currsong1 = %T
+currsong2 = by %A from %B
+
+[streams]
+num_streams = 11
+names[0] = HBR1.com - Tronic Lounge
+uris[0] = http://ubuntu.hbr1.com:19800/tronic.ogg
+names[1] = HBR1.com - I.D.M. Tranceponder
+uris[1] = http://ubuntu.hbr1.com:19800/trance.ogg
+names[2] = HBR1.com - Dream Factory
+uris[2] = http://ubuntu.hbr1.com:19800/ambient.ogg
+names[3] = WKNC 88.1 FM (NC State) (High Quality)
+uris[3] = http://wknc.sma.ncsu.edu:8000/wknchq.ogg.m3u
+names[4] = Radio Guerrilla 32kbit
+uris[4] = http://live.eliberadio.ro:8000/
+names[5] = Radio Guerrilla 48kbit
+uris[5] = http://live.eliberadio.ro:8002/
+names[6] = RadioZU 128wma
+uris[6] = mms://86.35.14.20/radiozu
+names[7] = KissFM
+uris[7] = http://80.86.106.136:80/
+names[8] = RadioZU
+uris[8] = http://81.196.2.167:8020/
+names[9] = Vibe FM
+uris[9] = http://89.238.252.146:9000/
+names[10] = di.fm
+uris[10] = http://scfire-dtc-aa01.stream.aol.com:80/stream/1003
+
+[audioscrobbler]
+use_audioscrobbler = False
+username = 
+password_md5 = 
+
+[tags]
+use_mpdpaths = False
+

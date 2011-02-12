@@ -1,0 +1,56 @@
+pcm.!default {
+    type pulse
+}
+ctl.!default {
+    type pulse
+}
+
+pcm.skype {
+   type asym
+   playback.pcm "skypeout"
+   capture.pcm "skypein"
+}
+
+pcm.skypein {
+   # Convert from 8-bit unsigned mono (default format set by aoss when
+   # /dev/dsp is opened) to 16-bit signed stereo (expected by dsnoop)
+   #
+   # We can't just use a "plug" plugin because although the open will
+   # succeed, the buffer sizes will be wrong and we'll hear no sound at
+   # all.
+   type route
+   slave {
+      pcm "skypedsnoop"
+      format S16_LE
+   }
+   ttable {
+      0 {0 0.5}
+      1 {0 0.5}
+   }
+}
+
+pcm.skypeout {
+   # Just pass this on to the system dmix
+   type plug
+   slave {
+      pcm "dmix"
+   }
+}
+
+pcm.skypedsnoop {
+   type dsnoop
+   ipc_key 1133
+   slave {
+      # "Magic" buffer values to get skype audio to work
+      # If these are not set, opening /dev/dsp succeeds but no sound
+      # will be heard. According to the alsa developers this is due
+      # to skype abusing the OSS API.
+      pcm "hw:0,0"
+      period_size 256
+      periods 16
+      buffer_size 16384
+   }
+   bindings {
+      0 0
+   }
+}

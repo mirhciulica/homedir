@@ -1,0 +1,105 @@
+#!/usr/bin/env python2
+# Generates an openbox pipe menu containing the user's running processes,
+# from which he/she can perform a customizable variety of actions.
+#
+# Author: Evan Hanson
+# Version: 0.2 (or so...)
+# Date: May 2009
+#
+
+import os, subprocess, sys, pwd
+
+###################### CONFIG ############################
+#
+# FILTERED PROCESSES
+# exclude commands containing the following terms
+# add any processes you want ignored below...
+exclude = [
+	"bash", # default shell (might not be bash...)	
+	# "dbus",
+	# "gvfs"
+]
+# PROCESS ACTIONS
+# put here the actions you want for each process
+# format: ('label', 'command')
+# templating options:
+#	%s - short command name
+#	%f - full command name
+#	%p - process pid
+# NOTE: commands with any shell syntax (pipes, redirection, etc)
+# must be passed to the sh command (check the examples below)
+actions = [
+	("copy command", "sh -c 'echo \"%f\" | xclip -selection clipboard'"),
+	("copy pid", "sh -c 'echo \"%p\" | xclip -selection clipboard'"),
+	("suspend", "kill -SIGSTOP %p"),
+	("resume", "kill -SIGCONT %s"),
+	("killall", "killall %s"),
+	("kill", "kill -KILL %p")
+]
+#
+###################### END CONFIG ########################
+
+def main():
+
+	# get user's processes with ps
+	usr = pwd.getpwuid(os.getuid())[0] # from http://docs.python.org/library/os.html#os.getlogin
+	cmd = "ps -u " + usr + " -o pid,comm,cmd"
+	args = cmd.split(' ')
+
+	[exclude.append(c) for c in [cmd, "CMD", sys.argv[0]]];
+
+	# return the processes to array
+	result = subprocess.getoutput(cmd)
+	out = result.split('\n')
+	
+	# print the menu
+	menu(out)
+
+def menu(processes):
+
+	print("<openbox_pipe_menu>")
+	
+	[submenu(p) for p in processes]
+	
+	print("</openbox_pipe_menu>")
+	
+def submenu(process):
+
+	for term in exclude:
+		if term in process:
+			return
+	
+	# parse output of ps
+	col = process.strip().partition(' ')
+	pid = col[0] # pid is always first term
+	cmds = col[2].strip().partition(' ') # remaining string contains commands
+	
+	scmd = cmds[0]
+	fcmd = cmds[2].strip()
+
+	if scmd not in exclude:
+		itemmenu(pid, fcmd, scmd)
+		
+def itemmenu(pid, fcmd, scmd):
+	
+	print("<menu id=\"process-menu-" + pid + "\" label=\"" + scmd + "\">")
+	print("<separator label=\"" + fcmd + "\" />")
+
+	i = 1
+	for l, c in actions:
+		l, c = [v.replace('%s', scmd).replace('%f', fcmd).replace('%p', pid) for v in [l, c]]
+		print(item("action"+pid+str(i), l, c))
+		i += 1
+	
+	print("</menu>")	
+
+def item(itemid, label, ex):
+	
+	return "<item id=\"" + itemid + "\" label=\"" + label + "\">\n" + \
+			"<action name=\"Execute\">\n" + \
+			"<execute>\n" + ex + "\n</execute>\n" + \
+			"</action>\n" + \
+			"</item>"
+
+if __name__ == "__main__":
+	main()

@@ -1,0 +1,28 @@
+# The Bar && Font
+i: /home/mirciulica/.config/wbar/iconpack/token/barback.png
+t: /home/mirciulica/.config/wbar/iconpack/comic/12
+c:
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Home.png
+c: thunar
+t: Thunar
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Chrome.png
+c: chromium
+t: Google Chrome
+
+i: /home/mirciulica/.config/wbar/iconpack/token/E-Mail.png
+c: claws-mail
+t: Claws-mail
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Skype.png
+c: skype
+t: skype
+
+i: /home/mirciulica/.config/wbar/iconpack/token/smplayer.png
+c: smplayer
+t: SMPlayer
+
+i: /home/mirciulica/.config/wbar/iconpack/token/Media-Player.png
+c: smplayer
+t: SMPlayer
