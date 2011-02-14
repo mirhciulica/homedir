@@ -1,10 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/disks/work/proiecte/wouso-django/wouso/games/qotd'
-let g:netrw_dirhist_2='/disks/work/proiecte/wouso-django/wouso/games/wquest'
-let g:netrw_dirhist_3='/disks/work/proiecte/wouso-django/wouso/games/qotd'
-let g:netrw_dirhist_4='/home/mirciulica/.config/tint2'
-let g:netrw_dirhist_5='/home/mirciulica/notes'
-let g:netrw_dirhist_6='/home/mirciulica/configs/openbox'
-let g:netrw_dirhist_7='/etc/squid'
-let g:netrw_dirhist_8='/home/mirciulica/.git'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/usr/lib/network/connections'
+let g:netrw_dirhist_2='/usr/lib/network'

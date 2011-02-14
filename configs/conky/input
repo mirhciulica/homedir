@@ -1,3 +1,3 @@
-${goto 10}${font ConkyWeather:size=25}-${font}
-${goto 15}
-${goto 13}0.0.0
+${goto 10}${font ConkyWeather:size=25}B${font}
+${goto 15}-3°C
+${goto 13}0.0.1

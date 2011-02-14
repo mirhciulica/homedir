@@ -5,44 +5,90 @@
 Feature full netcfg management script for openbox
 mirhciulica 2011
 
+based on pbrisbin's wifi script
+
 requires:
+    wpa_supplicant (already running in background before calling this script)
+    wpa_cli
     netcfg
-    NOPASSWD entries for this and netcfg through visudo
+    NOPASSWD entries for this script through visudo
 
 changelog
     01.2011
       + initial work for openbox menu output
+    02.2011
+      + wireless networks scan with wpa_supplicant & wpa_cli
 """
 
 
 from getopt import getopt, GetoptError
+from operator import itemgetter
 from subprocess import Popen, PIPE
+from subprocess import call, check_output
 from os import listdir, path
+from time import sleep
 import sys
 
 
 profiles_path = '/etc/network.d/'
 profiles = {'ethernet':[], 'wireless':[]}
 
+wireless_interface = 'wlan0'
+ethernet_interface = 'eth0'
+
 def get_network_profiles():
+    scan_output = check_output(['wpa_cli', '-i', 'wlan0', 'scan'])
+    #sleep(1)
+    scan_results = check_output(['wpa_cli', '-i', 'wlan0', 'scan_results']).decode()
+    results_array = scan_results[scan_results.find('\n')+1:].splitlines()
+    results_array = [l[23:].split('\t') for l in results_array]
+    newlist = []
+    append = newlist.append
+    for array in results_array:
+        array = [array[2], array[1], int((int(array[0])+100)*10/6)]
+        if array[1].startswith('[WPA'):
+            array[1] = 'wpa'
+        elif array[1].startswith('[WEP'):
+            if array[1].endswith('[ESS]'):
+                array[1] = 'wep'
+            elif array[1].endswith('[IBSS]'):
+                array[2] = 'wep-adhoc'
+        elif array[1] == '[ESS]':
+            array[1] = 'none'
+        elif array[1] == '[IBSS]':
+            array[1] = 'none-adhoc'
+        append(array)
+    newlist.sort(key=itemgetter(2), reverse=True)
+    profiles['wireless'] = newlist
+
     profiles_array = listdir(profiles_path)
+    isdir = path.isdir
+    newlist = []
+    append = newlist.append
     for profile in profiles_array:
         profile_path = profiles_path+profile
-        if path.isdir(profile_path):
+        if isdir(profile_path):
             continue
         file_object = open(profile_path)
         head = file_object.readline()
-        profiles[head[12:-2]].append(profile)
+        if head[12:-2] == 'ethernet':
+            append(profile)
+    profiles['ethernet'] = newlist
 
 def get_openbox_pipe_menu():
     output = '<openbox_pipe_menu>'
-    output += '\n<separator label="%s" />' % 'Current profile'
-    output += '\n<item label="%s" />' % current_conn()
+    output = ''.join([output,'\n<separator label="%s" />' % 'Current profile'])
+    output = ''.join([output,'\n<item label="%s" />' % current_conn()])
+    output = ''.join([output,'\n<item label="Disconnect" />'])
     if is_plugged('eth0'):
-        output += profiles_list('ethernet')
-    output += profiles_list('wireless')
-    output += '\n</openbox_pipe_menu>'
-
+        head = '\n<separator label="Available ethernet networks" />'
+        l = ['\n<item label="%s" />' % p for p in profiles['ethernet']]
+        output = ''.join([output, head, ''.join(l)])
+    head = '\n<separator label="Available wireless networks" />'
+    l = ['\n<item label="%s (%s) %d%%" />' % (p[0],p[1],p[2]) \
+            for p in profiles['wireless']]
+    output = ''.join([output, head, ''.join(l)])
+    output = ''.join([output,'\n</openbox_pipe_menu>'])
     return output
 
 def is_plugged(interface):
@@ -52,19 +98,10 @@ def is_plugged(interface):
     return False
 
 def current_conn():
-    current = popen_stdout('netcfg current').decode()
+    current = check_output(['netcfg', 'current']).decode()
     if not len(current) == 0:
         return current[:-1]
     return 'none'
-
-def profiles_list(interface):
-    output = '\n<separator label="Available %s networks" />' % interface
-    for profile in profiles[interface]:
-        output += '\n<item label="%s" />' % profile
-    return output
-
-def popen_stdout(command):
-    return Popen(command, shell=True, stdout=PIPE).stdout.read()
 
 def usage():
     print('test')
