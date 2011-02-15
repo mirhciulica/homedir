@@ -18,12 +18,13 @@ changelog
       + initial work for openbox menu output
     02.2011
       + wireless networks scan with wpa_supplicant & wpa_cli
+      + change ethernet network profile from openbox menu
+      * code cleanup
 """
 
 
 from getopt import getopt, GetoptError
 from operator import itemgetter
-from subprocess import Popen, PIPE
 from subprocess import call, check_output
 from os import listdir, path
 from time import sleep
@@ -32,9 +33,6 @@ import sys
 
 profiles_path = '/etc/network.d/'
 profiles = {'ethernet':[], 'wireless':[]}
-
-wireless_interface = 'wlan0'
-ethernet_interface = 'eth0'
 
 def get_network_profiles():
     scan_output = check_output(['wpa_cli', '-i', 'wlan0', 'scan'])
@@ -76,20 +74,31 @@ def get_network_profiles():
     profiles['ethernet'] = newlist
 
 def get_openbox_pipe_menu():
-    output = '<openbox_pipe_menu>'
-    output = ''.join([output,'\n<separator label="%s" />' % 'Current profile'])
-    output = ''.join([output,'\n<item label="%s" />' % current_conn()])
-    output = ''.join([output,'\n<item label="Disconnect" />'])
+    script_path = path.abspath(__file__)
+    curr_conn = current_conn()
+    menu_sep = '\n<separator label="%s" />'
+    menu_item = '\n<item label="%s"> \
+                   \n<action name="Execute"> \
+                     \n<command>sudo %s</command> \
+                   \n</action> \
+                 \n</item>'
+    output = []
+    append = output.append
+    extend = output.extend
+    append('<openbox_pipe_menu>')
+    append(menu_sep % 'Current profile')
+    append(menu_item % (curr_conn, ''))
+    if not curr_conn == 'none':
+        append(menu_item % ('Disconnect', '%s -a down' % script_path))
     if is_plugged('eth0'):
-        head = '\n<separator label="Available ethernet networks" />'
-        l = ['\n<item label="%s" />' % p for p in profiles['ethernet']]
-        output = ''.join([output, head, ''.join(l)])
-    head = '\n<separator label="Available wireless networks" />'
-    l = ['\n<item label="%s (%s) %d%%" />' % (p[0],p[1],p[2]) \
-            for p in profiles['wireless']]
-    output = ''.join([output, head, ''.join(l)])
-    output = ''.join([output,'\n</openbox_pipe_menu>'])
-    return output
+        append(menu_sep % 'Available ethernet networks')
+        extend([menu_item % (p,'%s -a up -t %s' % (script_path, p)) \
+                for p in profiles['ethernet']])
+    append(menu_sep % 'Available wireless networks')
+    extend([menu_item % ('%s (%s) %d%%' % (p[0], p[1], p[2]),'') \
+            for p in profiles['wireless']])
+    append('\n</openbox_pipe_menu>')
+    return ''.join(output)
 
 def is_plugged(interface):
     carrier_file = open('/sys/class/net/%s/carrier' % interface)
@@ -103,6 +112,12 @@ def current_conn():
         return current[:-1]
     return 'none'
 
+def take_down_current_profile():
+    call(['netcfg', 'down', current_conn()])
+
+def take_up_profile(profile):
+    call(['netcfg', 'up', profile])
+
 def usage():
     print('test')
 
@@ -110,10 +125,9 @@ if __name__ == "__main__":
     get_network_profiles()
     action = 'menu'
     try:
-        opts, args = getopt(sys.argv[1:],'a:t',[])
+        opts, args = getopt(sys.argv[1:],'a:t:',[])
     except GetoptError:
         usage()
-        # TODO why sys.exit(2)
         sys.exit(2)
 
     for opt, arg in opts:
@@ -124,4 +138,8 @@ if __name__ == "__main__":
 
     if action == 'menu':
         print(get_openbox_pipe_menu())
+    elif action == 'down':
+        take_down_current_profile()
+    elif action == 'up':
+        take_up_profile(target)
 
