@@ -20,6 +20,8 @@ changelog
       * code cleanup
       + wireless profiles auto generation
       + connect to wireless networks
+      * bug fixes
+      + profile menu (connect, edit, delete)
 """
 
 
@@ -34,10 +36,13 @@ import sys
 profiles_path = '/etc/network.d/'
 profiles = {'ethernet':[], 'wireless':[]}
 
+einterface = 'eth0'
+winterface = 'wlan0'
+
 def get_network_profiles():
-    scan_output = check_output(['wpa_cli', '-i', 'wlan0', 'scan'])
+    scan_output = check_output(['wpa_cli', '-i', winterface, 'scan'])
     #sleep(1)
-    scan_results = check_output(['wpa_cli', '-i', 'wlan0', 'scan_results']).decode()
+    scan_results = check_output(['wpa_cli', '-i', winterface, 'scan_results']).decode()
     results_array = scan_results[scan_results.find('\n')+1:].splitlines()
     results_array = [l[23:].split('\t') for l in results_array]
     newlist = []
@@ -77,28 +82,42 @@ def get_openbox_pipe_menu():
     script_path = path.abspath(__file__)
     curr_conn = current_conn()
     menu_sep = '\n<separator label="%s" />'
-    menu_item = '\n<item label="%s"> \
-                   \n<action name="Execute"> \
-                     \n<command>sudo %s</command> \
-                   \n</action> \
-                 \n</item>'
+    menu_item = '\n<menu id="id-%s" label="%s"> \
+                   \n<item label="%s"> \
+                     \n<action name="Execute"> \
+                       \n<command>sudo %s</command> \
+                     \n</action> \
+                   \n</item> \
+                   \n<item label="Edit"> \
+                     \n<action name="Execute"> \
+                       \n<command>gksudo gvim %s</command> \
+                     \n</action> \
+                   \n</item> \
+                   \n<item label="Remove"> \
+                     \n<action name="Execute"> \
+                       \n<command>gksudo rm %s</command> \
+                     \n</action> \
+                   \n</item> \
+                 \n</menu>'
     output = []
     append = output.append
     extend = output.extend
     append('<openbox_pipe_menu>')
     append(menu_sep % 'Current profile')
-    append(menu_item % (curr_conn, ''))
-    if not curr_conn == 'none':
-        append(menu_item % ('Disconnect', '%s -a down' % script_path))
-    if is_plugged('eth0'):
+    append(menu_item % (curr_conn, curr_conn, 'Disconnect', \
+            '%s -a down' % script_path, '', ''))
+    if is_plugged(einterface):
         append(menu_sep % 'Available ethernet networks')
-        extend([menu_item % (p,'%s -a up -t "%s" -c %s -i %s -s %s' % \
-                (script_path, p, 'ethernet', 'eth0', 'none')) \
+        extend([menu_item % (p, p, 'Connect', \
+                '%s -a up -t "%s" -c %s -i %s -s %s' % \
+                (script_path, p, 'ethernet', einterface, 'none'), \
+                ''.join([profiles_path,p]), ''.join([profiles_path,p])) \
                 for p in profiles['ethernet']])
     append(menu_sep % 'Available wireless networks')
-    extend([menu_item % ('%s (%s) %d%%' % (p[0], p[1], p[2]), \
-            '%s -a up -t "%s" -c %s -i %s -s %s' % \
-            (script_path, p[0], 'wireless', 'wlan0', p[1])) \
+    extend([menu_item % (p[0], '%s (%s) %d%%' % (p[0], p[1], p[2]), \
+            'Connect', '%s -a up -t "%s" -c %s -i %s -s %s' % \
+            (script_path, p[0], 'wireless', winterface, p[1]), \
+            ''.join([profiles_path,p[0]]), ''.join([profiles_path,p[0]])) \
             for p in profiles['wireless']])
     append('\n</openbox_pipe_menu>')
     return ''.join(output)
@@ -121,23 +140,13 @@ def take_down_current_profile():
 def take_up_profile(profile, connection, interface, security):
     key = ''
     profileList = []
-    if not path.isfile('/etc/network.d/%s' % profile):
-        pass
-    elif not security.startwith('none'):
-        tempFile = open('/etc/network.d/%s' % profile, 'r')
-        profileList = tempFile.readlines()
-        profileList.reverse()
-        tempFile.close()
-        for s in profileList:
-            if s.startswith('KEY='):
-                key = s[s.find('"')+1:s.rfind('"')]
-                break
-    if not security.startswith('none') and key == '':
+    if not security.startswith('none'):
         key = check_output(['zenity', '--entry', '--title', \
                 'Authentication', '--text', \
                 'Please enter %s key for %s' % (security, profile), \
                 '--hide-text']).decode()[:-1]
-    create_profile(profile, connection, interface, security, key)
+    if not path.isfile('/etc/network.d/%s' % profile):
+        create_profile(profile, connection, interface, security, key)
     call(['netcfg', 'up', profile])
 
 def create_profile(essid, connection, interface, security, key):
@@ -165,7 +174,7 @@ if __name__ == "__main__":
     get_network_profiles()
     action = 'menu'
     try:
-        opts, args = getopt(sys.argv[1:],'a:t:',[])
+        opts, args = getopt(sys.argv[1:],'a:t:c:i:s:',[])
     except GetoptError:
         usage()
         sys.exit(2)
