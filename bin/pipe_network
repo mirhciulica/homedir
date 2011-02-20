@@ -59,10 +59,6 @@ def get_network_profiles():
     newlist.sort(key=itemgetter(2), reverse=True)
     profiles['wireless'] = newlist
 
-    tempFile = open('/tmp/wifi-networks', 'w')
-    tempFile.writelines(['%s%s\n' % (p[0], p[1]) for p in profiles['wireless']])
-    tempFile.close()
-
     profiles_array = listdir(profiles_path)
     isdir = path.isdir
     newlist = []
@@ -96,11 +92,13 @@ def get_openbox_pipe_menu():
         append(menu_item % ('Disconnect', '%s -a down' % script_path))
     if is_plugged('eth0'):
         append(menu_sep % 'Available ethernet networks')
-        extend([menu_item % (p,'%s -a up -t "%s"' % (script_path, p)) \
+        extend([menu_item % (p,'%s -a up -t "%s" -c %s -i %s -s %s' % \
+                (script_path, p, 'ethernet', 'eth0', 'none')) \
                 for p in profiles['ethernet']])
     append(menu_sep % 'Available wireless networks')
     extend([menu_item % ('%s (%s) %d%%' % (p[0], p[1], p[2]), \
-            '%s -a up -t "%s"' % (script_path, p)) \
+            '%s -a up -t "%s" -c %s -i %s -s %s' % \
+            (script_path, p[0], 'wireless', 'wlan0', p[1])) \
             for p in profiles['wireless']])
     append('\n</openbox_pipe_menu>')
     return ''.join(output)
@@ -120,21 +118,12 @@ def current_conn():
 def take_down_current_profile():
     call(['netcfg', 'down', current_conn()])
 
-def take_up_profile(profile):
-    security = ''
-    tempFile = open('/tmp/wifi-networks', 'r')
-    tempList = tempFile.readlines()
-    tempFile.close()
-    for s in tempList:
-        if s.startswith(profile):
-            security = s[len(profile):]
-            security = security[:security.find('-')]
-            break
+def take_up_profile(profile, connection, interface, security):
     key = ''
     profileList = []
     if not path.isfile('/etc/network.d/%s' % profile):
-        retcode = call(['touch', '/etc/networkd.d/%s' % profile])
-    elif not security == 'none':
+        pass
+    elif not security.startwith('none'):
         tempFile = open('/etc/network.d/%s' % profile, 'r')
         profileList = tempFile.readlines()
         profileList.reverse()
@@ -143,17 +132,17 @@ def take_up_profile(profile):
             if s.startswith('KEY='):
                 key = s[s.find('"')+1:s.rfind('"')]
                 break
-    if not security == 'none' and key == '':
+    if not security.startswith('none') and key == '':
         key = check_output(['zenity', '--entry', '--title', \
                 'Authentication', '--text', \
                 'Please enter %s key for %s' % (security, profile), \
                 '--hide-text']).decode()[:-1]
-    create_profile(profile, 'wlan0', security, key)
+    create_profile(profile, connection, interface, security, key)
     call(['netcfg', 'up', profile])
 
-def create_profile(essid, interface, security, key):
+def create_profile(essid, connection, interface, security, key):
     profile = [
-            'CONNECTION="wireless"\n',
+            'CONNECTION="%s"\n' % connection,
             'ESSID="%s"\n' % essid,
             'INTERFACE="%s"\n' % interface,
             'DESCRIPTION="Automatically generated profile"\n',
@@ -162,7 +151,7 @@ def create_profile(essid, interface, security, key):
             'TIMEOUT="15"\n',
             'SECURITY="%s"\n' % security,
             ]
-    if not security == 'none':
+    if not security.startswith('none'):
         profile.append('KEY="%s"' % key)
     profileFile = open('/etc/network.d/%s' % essid, 'w')
     profileFile.writelines(profile)
@@ -186,11 +175,17 @@ if __name__ == "__main__":
             action = arg
         if opt == '-t':
             target = arg
+        if opt == '-c':
+            connection = arg
+        if opt == '-i':
+            interface = arg
+        if opt == '-s':
+            security = arg
 
     if action == 'menu':
         print(get_openbox_pipe_menu())
     elif action == 'down':
         take_down_current_profile()
     elif action == 'up':
-        take_up_profile(target)
+        take_up_profile(target, connection, interface, security)
 
