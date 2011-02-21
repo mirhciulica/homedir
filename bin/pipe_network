@@ -10,6 +10,7 @@ requires:
     wpa_cli
     netcfg
     NOPASSWD entries for this script through visudo
+    gksudo
 
 changelog
     01.2011
@@ -22,6 +23,7 @@ changelog
       + connect to wireless networks
       * bug fixes
       + profile menu (connect, edit, delete)
+      * stability improvements
 """
 
 
@@ -30,8 +32,7 @@ from operator import itemgetter
 from subprocess import call, check_output
 from os import listdir, path
 from time import sleep
-import sys
-
+from sys import exit, argv
 
 profiles_path = '/etc/network.d/'
 profiles = {'ethernet':[], 'wireless':[]}
@@ -104,8 +105,9 @@ def get_openbox_pipe_menu():
     extend = output.extend
     append('<openbox_pipe_menu>')
     append(menu_sep % 'Current profile')
-    append(menu_item % (curr_conn, curr_conn, 'Disconnect', \
-            '%s -a down' % script_path, '', ''))
+    if not curr_conn == 'none':
+        append(menu_item % (curr_conn, curr_conn, 'Disconnect', \
+                '%s -a down' % script_path, '', ''))
     if is_plugged(einterface):
         append(menu_sep % 'Available ethernet networks')
         extend([menu_item % (p, p, 'Connect', \
@@ -124,8 +126,11 @@ def get_openbox_pipe_menu():
 
 def is_plugged(interface):
     carrier_file = open('/sys/class/net/%s/carrier' % interface)
-    if carrier_file.read().startswith('1'):
-        return True
+    try:
+        if carrier_file.read().startswith('1'):
+            return True
+    except:
+        retcode = call(['ifconfig', interface, 'up'])
     return False
 
 def current_conn():
@@ -174,10 +179,10 @@ if __name__ == "__main__":
     get_network_profiles()
     action = 'menu'
     try:
-        opts, args = getopt(sys.argv[1:],'a:t:c:i:s:',[])
+        opts, args = getopt(argv[1:],'a:t:c:i:s:',[])
     except GetoptError:
         usage()
-        sys.exit(2)
+        exit(2)
 
     for opt, arg in opts:
         if opt == '-a':
