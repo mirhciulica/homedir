@@ -1,0 +1,215 @@
+#!/usr/bin/env python2
+# coding=utf-8
+
+"""
+user level "cron" like script
+mirhciulica 2010
+
+requires
+    conkyForecast
+    mpd
+    nitrogen
+    pynotify
+
+changelog
+    07.2010
+      + support for Yahoo mail
+    09.2010
+      - support for Yahoo mail
+      + support for ArchLinux mail
+    02.2011
+      + threaded actions
+      * enhanced mpd notifications
+      * bug fixex and cleanups
+"""
+
+import imaplib
+import mpd
+import os
+import pynotify
+from random import choice
+from string import find
+from subprocess import PIPE, Popen
+import threading
+from time import sleep
+from urllib2 import urlopen
+
+# Variables
+home = os.path.expanduser('~')
+
+
+# Thread classes
+class changeWall(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.walls_path = '%s/libraries/graphics/wallpapers/current' % home
+        self.images = [img for img in os.listdir(self.walls_path)]
+
+    def run(self):
+        while True:
+            sleep(3600)
+            os.system('nitrogen --set-auto --save %s/%s' % \
+                        (self.walls_path,choice(self.images)))
+
+
+class mpdNotify(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.last_song = None
+        self.last_status = None
+        # connect to MPD
+        try:
+            self.client = mpd.MPDClient()
+            self.client.connect('localhost', 6600)
+            self.mpdSuccess = True
+        except:
+            self.mpdSuccess = False
+        # define notification object
+        self.notification = pynotify.Notification(" ", " ")
+        self.musicicon = '/usr/share/icons/elementary/emblems/48/emblem-sound.svg'
+
+    def notify(self):
+        try:
+            artist = self.client.currentsong()['artist']
+        except:
+            artist = 'Unknown Artist'
+        try:
+            album = self.client.currentsong()['album']
+        except:
+            album = 'Unknown Album'
+        try:
+            title = self.client.currentsong()['title']
+        except:
+            title = 'Unknown Song'
+        self.notification.update(title, '%s\n%s' % (artist, album), self.musicicon)
+        self.notification.show()
+
+    def run(self):
+        while self.mpdSuccess:
+            sleep(1)
+            self.update()
+
+    def update(self):
+        try:
+            currentsong = self.client.currentsong()['file']
+        except:
+            currentsong = ''
+        status = self.client.status()['state']
+        if self.last_song != currentsong and status == 'play':
+            self.last_song = currentsong
+            self.notify()
+        elif status == 'pause':
+            self.last_song = 'pause'
+
+
+class conkyUpdates(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.weatherhead = '${goto 10}${font ConkyWeather:size=25}'
+        self.weathertail = '${font}'
+        self.weathervalue = '-'
+        self.temphead = '${goto 15}'
+        self.tempvalue = ''
+        self.updateshead = '${goto 13}'
+        self.updatesvalue = ['0', '0', '0']
+        if not os.path.isfile('%s/configs/conky/input' % home):
+            os.system('touch %s/configs/conky/input' % home)
+            self.writeFile()
+        else:
+            conkyFile = open('%s/configs/conky/input' % home, 'r')
+            linesList = conkyFile.readlines()
+            self.weathervalue = linesList[0][38]
+            self.tempvalue = linesList[1][10:-1]
+            self.updatesvalue = linesList[2][10:-1].split('.')
+
+    def run(self):
+        while True:
+            sleep(180)
+            self.gMails()
+            self.aMails()
+            self.weatherstatus()
+            self.archUpdates()
+            self.writeFile()
+
+    def writeFile(self):
+        conkyFile = open('%s/configs/conky/input' % home, 'w')
+        lineslist = []
+        lineslist.append(''.join([self.weatherhead, self.weathervalue, self.weathertail, '\n']))
+        lineslist.append(''.join([self.temphead, self.tempvalue, '\n']))
+        lineslist.append(''.join([self.updateshead,'.'.join(self.updatesvalue), '\n']))
+        conkyFile.writelines(lineslist)
+        conkyFile.close()
+
+    def archUpdates(self):
+        if not self.netConnection() == 'N/A':
+            updates = Popen('pacman -Qu | wc -l', shell=True, stdout=PIPE).stdout
+            self.updatesvalue[0] = updates.readlines()[0][:-1]
+            updates.close()
+
+    def gMails(self):
+        from localsettings.py import u1, p1
+        com="wget -q -T 15 -O - https://"+u1+":"+p1+"@mail.google.com/mail/feed/atom --no-check-certificate"
+        if self.netConnection() != 'N/A':
+            mails = ''
+            try:
+                temp = Popen(com, shell=True, stdout=PIPE).stdout
+                msg = temp.read()
+                temp.close()
+                index = find(msg,'<fullcount>')
+                index2 = find(msg,'</fullcount>')
+                mails = msg[index+11:index2]
+            except:
+                pass
+            self.updatesvalue[1] = mails
+
+    def aMails(self):
+        server="imap.gmail.com"
+        port=993
+        from localsettings.py import u2, p2
+        if self.netConnection() != 'N/A':
+            mails = ''
+            try:
+                imap = imaplib.IMAP4_SSL(server, port)
+                imap.login(u2, p2)
+                imap.select()
+                unread=imap.search(None, 'NOT', 'SEEN')[1][0]
+                mails=str(len(unread.split()))
+                imap.close()
+                imap.logout()
+            except:
+                pass
+            self.updatesvalue[2] = mails
+
+    def weatherstatus(self):
+        if self.netConnection() == 'N/A':
+            self.weathervalue = '-'
+            self.tempvalue = ''
+        else:
+            com = 'conkyForecast --location=ROXX0003 --datatype=%s'
+            WFText = Popen(com % 'WF', shell=True, stdout=PIPE).stdout
+            LTText = Popen(com % 'LT', shell=True, stdout=PIPE).stdout
+            self.weathervalue = WFText.read()[:-1]
+            self.tempvalue = LTText.read()[:-1]
+            WFText.close()
+            LTText.close()
+
+    def netConnection(self):
+        try:
+            con = urlopen('http://www.google.com')
+            return 'ok'
+        except:
+            return 'N/A'
+
+
+wall = changeWall()
+#wall.start()
+mpdNotifier = mpdNotify()
+mpdNotifier.start()
+conkyUpdater = conkyUpdates()
+conkyUpdater.start()
+
+while True:
+    sleep(7200)

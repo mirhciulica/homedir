@@ -13,13 +13,13 @@ set incsearch
 set smartcase
 set bg=dark
 filetype plugin indent on
+set ofu=syntaxcomplete#Complete
 setlocal tw=78
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
 " Supertab smarter completition. 
 " if '/' -> filename completition, otherwise omnicompletition
-
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
