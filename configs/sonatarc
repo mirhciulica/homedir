@@ -102,10 +102,10 @@ names[7] = KissFM
 uris[7] = http://80.86.106.136:80/
 names[8] = RadioZU
 uris[8] = http://81.196.2.167:8020/
-names[9] = Vibe FM
-uris[9] = http://89.238.252.146:9000/
-names[10] = di.fm
-uris[10] = http://scfire-dtc-aa01.stream.aol.com:80/stream/1003
+names[9] = di.fm
+uris[9] = http://scfire-dtc-aa01.stream.aol.com:80/stream/1003
+names[10] = Vibe FM
+uris[10] = http://89.238.252.146:9000
 
 [audioscrobbler]
 use_audioscrobbler = False

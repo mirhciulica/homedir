@@ -150,7 +150,7 @@ class conkyUpdates(threading.Thread):
             updates.close()
 
     def gMails(self):
-        from localsettings.py import u1, p1
+        from localsettings import u1, p1
         com="wget -q -T 15 -O - https://"+u1+":"+p1+"@mail.google.com/mail/feed/atom --no-check-certificate"
         if self.netConnection() != 'N/A':
             mails = ''
@@ -168,7 +168,7 @@ class conkyUpdates(threading.Thread):
     def aMails(self):
         server="imap.gmail.com"
         port=993
-        from localsettings.py import u2, p2
+        from localsettings import u2, p2
         if self.netConnection() != 'N/A':
             mails = ''
             try:
