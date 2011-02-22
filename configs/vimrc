@@ -14,7 +14,7 @@ set smartcase
 set bg=dark
 filetype plugin indent on
 set ofu=syntaxcomplete#Complete
-setlocal tw=78
+setlocal tw=80
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
