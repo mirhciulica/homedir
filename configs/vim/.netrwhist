@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/usr/lib/network/connections'
 let g:netrw_dirhist_2='/usr/lib/network'
 let g:netrw_dirhist_3='/home/mirciulica/temp'
@@ -7,3 +7,4 @@ let g:netrw_dirhist_4='/'
 let g:netrw_dirhist_5='/srv/http'
 let g:netrw_dirhist_6='/'
 let g:netrw_dirhist_7='/etc/sudoers.d'
+let g:netrw_dirhist_8='/home/mirciulica/configs/uzbl'

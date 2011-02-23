@@ -205,7 +205,7 @@ class conkyUpdates(threading.Thread):
 
 
 wall = changeWall()
-#wall.start()
+wall.start()
 mpdNotifier = mpdNotify()
 mpdNotifier.start()
 conkyUpdater = conkyUpdates()
