@@ -228,12 +228,6 @@
         <execute>sflock</execute>
       </action>
     </keybind>
-    <keybind key="C-Menu">
-      <action name="execute">
-        <command>bash -c "if [ `setxkbmap -print | grep xkb_symbols | awk '{print $4}' | awk -F"+" '{print $2}'` = us ] ;then setxkbmap ro std; else setxkbmap us ; fi"
-        </command>
-      </action>
-    </keybind>
     <keybind key="XF86HomePage">
       <action name="Execute">
         <execute>chromium</execute>

@@ -12,5 +12,6 @@ pidgin &
 python2 ~/bin/desktopd > /dev/null &
 pulseaudio --start &
 (amixer -c 0 sset 'Input Source' 'Ext Mic') &
+setxkbmap ro &
 #dropboxd &
 #nvidia-settings --load-config-only &
