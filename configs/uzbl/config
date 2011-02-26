@@ -56,8 +56,8 @@ set authentication_handler = sync_spawn @scripts_dir/auth.py
 # Open in new tab
 @on_event   NEW_WINDOW     event NEW_TAB %s
 # Download handler
-#@on_event   DOWNLOAD_REQUEST    sync_spawn @scripts_dir/download.sh
-@on_event   DOWNLOAD_REQUEST    sync_spawn @scripts_dir/dl-progress-statusbar.sh
+@on_event   DOWNLOAD_REQUEST    sync_spawn @scripts_dir/download.sh
+#@on_event   DOWNLOAD_REQUEST    sync_spawn @scripts_dir/dl-progress-statusbar.sh
 # Load start handler
 @on_event   LOAD_START     @set_status <span foreground="khaki">wait</span>
 # Reset the keycmd on navigation

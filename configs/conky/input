@@ -1,3 +1,3 @@
-${goto 10}${font ConkyWeather:size=25}s${font}
+${goto 10}${font ConkyWeather:size=25}f${font}
 ${goto 15}-9°C
 ${goto 13}0.0.0
