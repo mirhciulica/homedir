@@ -1,0 +1,9 @@
+#/bin/bash
+
+SERVER=`gvim --serverlist`
+
+if [ "$SERVER" == "" ]; then
+  `gvim --servername VIMSRV -p $@`
+else
+  `gvim --servername $SERVER --remote-tab $@`
+fi

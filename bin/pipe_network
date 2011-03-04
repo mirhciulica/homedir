@@ -57,7 +57,7 @@ def get_network_profiles():
                 array[1] = 'wep'
             elif array[1].endswith('[IBSS]'):
                 array[2] = 'wep-adhoc'
-        elif array[1] == '[ESS]':
+        elif array[1] == '[ESS]' or array[1] == '[WPS][ESS]':
             array[1] = 'none'
         elif array[1] == '[IBSS]':
             array[1] = 'none-adhoc'
