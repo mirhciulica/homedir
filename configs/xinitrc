@@ -17,4 +17,4 @@ exec dbus-launch openbox-session
 #	sleep 1m    # Update time every minute
 #done &
 
-#exec dwm
+#exec ~/bin/startdwm
