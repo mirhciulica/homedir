@@ -6,8 +6,7 @@ Feature full netcfg management script for openbox
 mirhciulica 2011
 
 requires:
-    wpa_supplicant (already running in background before calling this script)
-    wpa_cli
+    iwlist
     netcfg
     NOPASSWD entries for this script through visudo
     gksudo
@@ -24,6 +23,9 @@ changelog
       * bug fixes
       + profile menu (connect, edit, delete)
       * stability improvements
+    03.2011
+      - removed support for wpa_supplicant
+      + wireless scanning is now done with iwlist
 """
 
 
@@ -41,27 +43,31 @@ einterface = 'eth0'
 winterface = 'wlan0'
 
 def get_network_profiles():
-    scan_output = check_output(['wpa_cli', '-i', winterface, 'scan'])
-    #sleep(1)
-    scan_results = check_output(['wpa_cli', '-i', winterface, 'scan_results']).decode()
-    results_array = scan_results[scan_results.find('\n')+1:].splitlines()
-    results_array = [l[23:].split('\t') for l in results_array]
+    scan_output = check_output(['iwlist', winterface, 'scan']).decode()
+    results_array = scan_output.splitlines()
+    last_cell = -1
     newlist = []
     append = newlist.append
-    for array in results_array:
-        array = [array[2], array[1], int((int(array[0])+100)*10/6)]
-        if array[1].startswith('[WPA'):
-            array[1] = 'wpa'
-        elif array[1].startswith('[WEP'):
-            if array[1].endswith('[ESS]'):
-                array[1] = 'wep'
-            elif array[1].endswith('[IBSS]'):
-                array[2] = 'wep-adhoc'
-        elif array[1] == '[ESS]' or array[1] == '[WPS][ESS]':
-            array[1] = 'none'
-        elif array[1] == '[IBSS]':
-            array[1] = 'none-adhoc'
-        append(array)
+    for l in results_array:
+        if l[10:].startswith('Cell'):
+            last_cell += 1
+            append(['','',''])
+        elif l[20:].startswith('Quality'):
+            q = [int(v) for v in l[28:33].split('/')]
+            new_list[last_cell][2] = int(q[0]*100/q[1])
+        elif l[20:].startswith('Encryption'):
+            if l[l.find(':')+1:-1] == 'on':
+                new_list[last_cell][1] = 'wep'
+            else:
+                new_list[last_cell][1] = 'none'
+        elif l[20:].startswith('ESSID'):
+            new_list[last_cell][0] = l[l.find('"')+1:-2]
+        elif l[20:].startswith('Mode'):
+            mode = l[l.find(':')+1:-1]
+            if mode == 'Ad-Hoc':
+                new_list[last_cell][1] = '-'.join([new_list[last_cell][1],'adhoc'])
+        elif l[20:].startswith('IE: WPA'):
+            new_list[last_cell][1] = 'wpa'
     newlist.sort(key=itemgetter(2), reverse=True)
     profiles['wireless'] = newlist
 
