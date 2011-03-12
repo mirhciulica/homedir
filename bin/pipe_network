@@ -54,20 +54,20 @@ def get_network_profiles():
             append(['','',''])
         elif l[20:].startswith('Quality'):
             q = [int(v) for v in l[28:33].split('/')]
-            new_list[last_cell][2] = int(q[0]*100/q[1])
+            newlist[last_cell][2] = int(q[0]*100/q[1])
         elif l[20:].startswith('Encryption'):
             if l[l.find(':')+1:-1] == 'on':
-                new_list[last_cell][1] = 'wep'
+                newlist[last_cell][1] = 'wep'
             else:
-                new_list[last_cell][1] = 'none'
+                newlist[last_cell][1] = 'none'
         elif l[20:].startswith('ESSID'):
-            new_list[last_cell][0] = l[l.find('"')+1:-2]
+            newlist[last_cell][0] = l[l.find('"')+1:-1]
         elif l[20:].startswith('Mode'):
             mode = l[l.find(':')+1:-1]
             if mode == 'Ad-Hoc':
-                new_list[last_cell][1] = '-'.join([new_list[last_cell][1],'adhoc'])
+                newlist[last_cell][1] = '-'.join([newlist[last_cell][1],'adhoc'])
         elif l[20:].startswith('IE: WPA'):
-            new_list[last_cell][1] = 'wpa'
+            newlist[last_cell][1] = 'wpa'
     newlist.sort(key=itemgetter(2), reverse=True)
     profiles['wireless'] = newlist
 
