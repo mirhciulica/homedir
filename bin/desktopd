@@ -67,6 +67,7 @@ class mpdNotify(threading.Thread):
         except:
             self.mpdSuccess = False
         # define notification object
+        self.notification = pynotify.init("mpd")
         self.notification = pynotify.Notification(" ", " ")
         self.musicicon = '/usr/share/icons/elementary/emblems/48/emblem-sound.svg'
 

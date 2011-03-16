@@ -376,6 +376,7 @@
 		<menu id="pipes-menu"/>
                 <menu id="pipe-network" label="Network" execute="sudo /home/mirciulica/bin/pipe_network" />
                 <menu id="pipe-wifi" label="Wifi" execute="sudo /home/mirciulica/bin/pipe_wifi wlan0" />
+                <menu id="pipe-tasklist" label="Task List" execute="/home/mirciulica/bin/pipe_tasklist -a menu -f taskfile" />
                 <menu id="info" label="sysInfo" execute="sh /home/mirciulica/bin/pipe_sysinfo" />
 	</menu>
 </openbox_menu>
