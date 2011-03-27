@@ -72,7 +72,7 @@ lib_album = !NONE!
 lib_artist = !NONE!
 lib_genre = !NONE!
 lib_year = !NONE!
-lib_path = trance
+lib_path = /
 lib_view = 0
 
 [currformat]
@@ -83,7 +83,7 @@ currsong1 = %T
 currsong2 = by %A from %B
 
 [streams]
-num_streams = 11
+num_streams = 13
 names[0] = HBR1.com - Tronic Lounge
 uris[0] = http://ubuntu.hbr1.com:19800/tronic.ogg
 names[1] = HBR1.com - I.D.M. Tranceponder
@@ -106,6 +106,10 @@ names[9] = di.fm
 uris[9] = http://scfire-dtc-aa01.stream.aol.com:80/stream/1003
 names[10] = Vibe FM
 uris[10] = http://89.238.252.146:9000
+names[11] = di.fm0
+uris[11] = mms://88.191.102.239:80/trance
+names[12] = di.fm2
+uris[12] = http://scfire-ntc-aa02.stream.aol.com:80/stream/1003
 
 [audioscrobbler]
 use_audioscrobbler = False

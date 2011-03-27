@@ -49,7 +49,7 @@ class changeWall(threading.Thread):
     def run(self):
         while True:
             sleep(3600)
-            os.system('nitrogen --set-auto --save %s/%s' % \
+            os.system('nitrogen --set-tiled --save %s/%s' % \
                         (self.walls_path,choice(self.images)))
 
 
@@ -145,10 +145,9 @@ class conkyUpdates(threading.Thread):
         conkyFile.close()
 
     def archUpdates(self):
-        if not self.netConnection() == 'N/A':
-            updates = Popen('pacman -Qu | wc -l', shell=True, stdout=PIPE).stdout
-            self.updatesvalue[0] = updates.readlines()[0][:-1]
-            updates.close()
+        updates = Popen('pacman -Qu | wc -l', shell=True, stdout=PIPE).stdout
+        self.updatesvalue[0] = updates.readlines()[0][:-1]
+        updates.close()
 
     def gMails(self):
         from localsettings import u1, p1

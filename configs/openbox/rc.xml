@@ -15,7 +15,7 @@
   <placement>
     <policy>Smart</policy>
     <center>no</center>
-    <monitor>Mouse</monitor>
+    <monitor>Active</monitor>
   </placement>
   <theme>
     <name>Orta-Openbox</name>

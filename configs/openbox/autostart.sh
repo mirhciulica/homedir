@@ -9,7 +9,8 @@ numlockx &
 parcellite &
 thunar --daemon &
 pidgin &
-python2 ~/bin/desktopd > /dev/null &
+kupfer &
+python2 ~/bin/desktopd > ~/temp/desktopd & #/dev/null &
 pulseaudio --start &
 (amixer -c 0 sset 'Input Source' 'Ext Mic') &
 setxkbmap ro &

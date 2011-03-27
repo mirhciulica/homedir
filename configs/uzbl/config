@@ -375,7 +375,7 @@ set default_mode = command
 # === Post-load misc commands ================================================
 
 # Set the "home" page.
-set uri = file:///home/mirciulica/temp/home.html
+set uri = http://www.google.com
 
 # Get tinyurl of current url in primary
 @bind xurl = sh 'wget -O - "http://tinyurl.com/api-create.php?url=\@uri" | xclip'
