@@ -18,7 +18,7 @@
     <monitor>Active</monitor>
   </placement>
   <theme>
-    <name>Orta-Openbox</name>
+    <name>darks</name>
     <titleLayout>NLIMC</titleLayout>
     <keepBorder>yes</keepBorder>
     <animateIconify>no</animateIconify>
@@ -230,7 +230,7 @@
     </keybind>
     <keybind key="XF86HomePage">
       <action name="Execute">
-        <execute>chromium</execute>
+        <execute>firefox</execute>
       </action>
     </keybind>
     <!--<keybind key="XF86Bluetooth">
@@ -637,8 +637,8 @@
     </application>
     <application name="URxvtTMux" class="URxvt">
       <position force="yes">
-        <x>675</x>
-        <y>397</y>
+        <x>677</x>
+        <y>423</y>
       </position>
       <layer>above</layer>
       <decor>no</decor>
