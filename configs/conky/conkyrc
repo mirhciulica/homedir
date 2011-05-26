@@ -40,7 +40,7 @@ draw_graph_borders no
  
 # -- Text settings -- #
 use_xft yes
-xftfont DejaVu Sans Mono:size=6.5
+xftfont Ubuntu:size=7.5
 xftalpha 0.4
  
 uppercase no

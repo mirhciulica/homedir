@@ -7,7 +7,7 @@
 
 URxvt.foreground: #ffffff
 URxvt.geometry: 90x24
-URxvt.font: xft:Monospace:pixelsize=11
+URxvt.font: xft:ProggyCleanTT:pixelsize=16
 URxvt.perl-lib:		        /usr/lib/URxvt/perl/
 URxvt.perl-ext-common:	        default,matcher
 URxvt.urlLauncher:	        chromium

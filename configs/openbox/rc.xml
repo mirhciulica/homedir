@@ -18,7 +18,7 @@
     <monitor>Active</monitor>
   </placement>
   <theme>
-    <name>darks</name>
+    <name>Orta-Openbox</name>
     <titleLayout>NLIMC</titleLayout>
     <keepBorder>yes</keepBorder>
     <animateIconify>no</animateIconify>
