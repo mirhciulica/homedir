@@ -21,12 +21,17 @@ changelog
       + threaded actions
       * enhanced mpd notifications
       * bug fixex and cleanups
+    07.2011
+      * crash fixes on notification update
+                       network connection check
+                       conkyForecast update
 """
 
 import imaplib
 import mpd
 import os
 import pynotify
+from glib import GError
 from random import choice
 from string import find
 from subprocess import PIPE, Popen
@@ -85,7 +90,10 @@ class mpdNotify(threading.Thread):
         except:
             title = 'Unknown Song'
         self.notification.update(title, '%s\n%s' % (artist, album), self.musicicon)
-        self.notification.show()
+        try:
+            self.notification.show()
+        except GError, e:
+            pass
 
     def run(self):
         while self.mpdSuccess:
@@ -109,12 +117,12 @@ class conkyUpdates(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
-        self.weatherhead = '${goto 10}${font ConkyWeather:size=25}'
+        self.weatherhead = '${goto 9}${font ConkyWeather:size=25}'
         self.weathertail = '${font}'
         self.weathervalue = '-'
-        self.temphead = '${goto 15}'
+        self.temphead = '${goto 14}'
         self.tempvalue = ''
-        self.updateshead = '${goto 13}'
+        self.updateshead = '${goto 11}'
         self.updatesvalue = ['0', '0', '0']
         if not os.path.isfile('%s/configs/conky/input' % home):
             os.system('touch %s/configs/conky/input' % home)
@@ -154,15 +162,12 @@ class conkyUpdates(threading.Thread):
         com="wget -q -T 15 -O - https://"+u1+":"+p1+"@mail.google.com/mail/feed/atom --no-check-certificate"
         if self.netConnection() != 'N/A':
             mails = ''
-            try:
-                temp = Popen(com, shell=True, stdout=PIPE).stdout
-                msg = temp.read()
-                temp.close()
-                index = find(msg,'<fullcount>')
-                index2 = find(msg,'</fullcount>')
-                mails = msg[index+11:index2]
-            except:
-                pass
+            temp = Popen(com, shell=True, stdout=PIPE).stdout
+            msg = temp.read()
+            temp.close()
+            index = find(msg,'<fullcount>')
+            index2 = find(msg,'</fullcount>')
+            mails = msg[index+11:index2]
             self.updatesvalue[1] = mails
 
     def aMails(self):
@@ -200,7 +205,11 @@ class conkyUpdates(threading.Thread):
         try:
             con = urlopen('http://www.google.com')
             return 'ok'
-        except:
+        except URLError, e:
+            if hasattr(e, 'reason'):
+                print 'Failed to reach server. Reason:', e.reason
+            elif hasattr(e, 'code'):
+                print 'Server could not fulfill the request. Reason:',e.code
             return 'N/A'
 
 

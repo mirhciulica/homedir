@@ -1,7 +1,7 @@
 #---------------------------------------------
 # TINT2CONF CONFIG FILE
 default_theme = /home/mirciulica/.config/tint2/default.tint2rc
-cmd_property = python /usr/bin/tintwizard.py
+cmd_property = python2 /usr/bin/tintwizard.py
 width = 600
 height = 400
 

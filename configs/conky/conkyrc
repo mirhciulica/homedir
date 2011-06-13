@@ -25,11 +25,11 @@ own_window_hints undecorate,above,sticky,skip_taskbar,skip_pager
 border_inner_margin 1
 border_outer_margin 0
  
-minimum_size 50 182
+minimum_size 47 182
 maximum_width 50
  
 alignment bottom_left
-gap_x 0
+gap_x 1
 gap_y 0
  
 # -- Graphics settings -- #
@@ -41,11 +41,11 @@ draw_graph_borders no
 # -- Text settings -- #
 use_xft yes
 xftfont Ubuntu:size=7.5
-xftalpha 0.4
+#xftalpha 0.4
  
 uppercase no
  
-default_color bbbbbb
+default_color 252525
 border_width 0
 
 mpd_host 127.0.0.1
@@ -57,8 +57,8 @@ lua_draw_hook_pre ring_stats
  
 
 TEXT
-${voffset 9}${goto 17}${font Poky:size=14}P${font}
-${voffset 10}${goto 17}${font Poky:size=14}M${font}
-${voffset 11}${goto 19}${font Poky:size=16}${if_mpd_playing}${if_match "${mpd_status}"=="Playing"}9${endif}${if_match "${mpd_status}"=="Paused"}6${endif}${endif}${if_match "${mpd_status}"=="Stopped"}8${endif}${font}
+${voffset 9}${goto 16}${font Poky:size=14}P${font}
+${voffset 11}${goto 16}${font Poky:size=14}M${font}
+${voffset 11}${goto 18}${font Poky:size=16}${if_mpd_playing}${if_match "${mpd_status}"=="Playing"}9${endif}${if_match "${mpd_status}"=="Paused"}6${endif}${endif}${if_match "${mpd_status}"=="Stopped"}8${endif}${font}
 
 ${execpi 61 cat ~/configs/conky/input}

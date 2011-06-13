@@ -15,13 +15,16 @@ Changelog:
 + v1.1 -- Added options for the starting angle of the rings, and added the "max" variable, to allow for variables that output a numerical value rather than a percentage (29.09.2009)
 + v1.0 -- Original release (28.09.2009)
 ]]
-conky_background_color = 0x000000
-conky_background_alpha = 0.7
+conky_background_color = 0xF0F0F1
+conky_background_alpha = 0.80
+conky_border_color = 0xB5D2D4
+conky_border_alpha = 1.00
+conky_border_width = 2.00
 
-ring_background_color = 0xffffff
-ring_background_alpha = 0.15
-ring_foreground_color = 0xffffff
-ring_foreground_alpha = 0.5
+ring_background_color = 0x000000
+ring_background_alpha = 0.20
+ring_foreground_color = 0x000000
+ring_foreground_alpha = 0.64
  
 settings_table = {
     --[[{
@@ -60,7 +63,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-        x=26, y=23,
+        x=25, y=23,
         radius=19,
         thickness=4,
         start_angle=0,
@@ -74,7 +77,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-        x=26, y=23,
+        x=25, y=23,
         radius=15,
         thickness=4,
         start_angle=0,
@@ -88,7 +91,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-        x=26, y=57,
+        x=25, y=57,
         radius=19,
         thickness=4,
         start_angle=-180,
@@ -102,7 +105,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-        x=26, y=57,
+        x=25, y=57,
         radius=15,
         thickness=4,
         start_angle=-180,
@@ -116,7 +119,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-	x=26, y=91,
+	x=25, y=91,
 	radius=15,
 	thickness=4,
 	start_angle=0,
@@ -131,7 +134,7 @@ settings_table = {
         bg_alpha=ring_background_alpha,
         fg_colour=ring_foreground_color,
         fg_alpha=ring_foreground_alpha,
-	x=26, y=91,
+    	x=25, y=91,
         radius=19,
         thickness=4,
         start_angle=0,
@@ -247,7 +250,10 @@ function conky_ring_stats()
     if update_num>5 then
         conky_round_rect(cr, 3, 0, conky_window.width-6, conky_window.height-3, 15)
         cairo_set_source_rgba(cr, rgb_to_r_g_b(conky_background_color, conky_background_alpha))
-        cairo_fill(cr)
+        cairo_fill_preserve(cr)
+        cairo_set_source_rgba(cr, rgb_to_r_g_b(conky_border_color, conky_border_alpha))
+        cairo_set_line_width(cr, conky_border_width)
+        cairo_stroke(cr)
         for i in pairs(settings_table) do
             setup_rings(cr,settings_table[i])
         end

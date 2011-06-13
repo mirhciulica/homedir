@@ -6,19 +6,19 @@
 # ID 1
 rounded = 5
 border_width = 2
-background_color = #F0F0F1 66
+background_color = #F0F0F1 68
 border_color = #B5D2D4 100
 
 # ID 2
 rounded = 5
 border_width = 0
-background_color = #252525 76
+background_color = #252525 78
 border_color = #FFFFFF 40
 
 # ID 3
 rounded = 5
 border_width = 0
-background_color = #252525 15
+background_color = #252525 17
 border_color = #FFFFFF 60
 
 # ID 4
@@ -103,7 +103,7 @@ tooltip_show_timeout = 0.7
 tooltip_hide_timeout = 0.3
 tooltip_background_id = 2
 tooltip_font = Ubuntu 10
-tooltip_font_color = #FFFFFF 74
+tooltip_font_color = #FFFFFF 76
 
 # Mouse
 mouse_middle = close

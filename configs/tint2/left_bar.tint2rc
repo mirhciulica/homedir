@@ -6,7 +6,7 @@
 # ID 1
 rounded = 5
 border_width = 0
-background_color = #000000 63
+background_color = #000000 61
 border_color = #FFFFFF 40
 
 # ID 2
@@ -96,7 +96,7 @@ time1_format = %H:%M
 time1_font = Droid Sans Bold 9
 time2_format = %h.%e
 time2_font = Droid Sans 7
-clock_font_color = #FFFFFF 67
+clock_font_color = #FFFFFF 65
 clock_tooltip = %a, %d %b. %Y
 clock_padding = 4 2
 clock_background_id = 1
@@ -109,7 +109,7 @@ tooltip_show_timeout = 0.7
 tooltip_hide_timeout = 0.3
 tooltip_background_id = 1
 tooltip_font = Droid Sans 10
-tooltip_font_color = #FFFFFF 67
+tooltip_font_color = #FFFFFF 65
 
 # Mouse
 mouse_middle = close
@@ -124,7 +124,7 @@ battery_low_cmd = notify-send "battery low"
 battery_hide = 100
 bat1_font = sans 8
 bat2_font = sans 6
-battery_font_color = #FFFFFF 63
+battery_font_color = #FFFFFF 61
 battery_padding = 1 0
 battery_background_id = 1
 
