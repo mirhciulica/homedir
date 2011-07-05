@@ -11,6 +11,7 @@ nitrogen --restore &
 #xplanetFX --autostart &
 xcompmgr &
 exec dbus-launch openbox-session
+#exec ck-launch-session startkde
 #exec dbus-launch gnome-session
 
 #while true; do
