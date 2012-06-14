@@ -2,15 +2,17 @@
 #
 # ~/.xinitrc
 
-export OOO_FORCE_DESKTOP=gnome
-export DE=xfce
+#export OOO_FORCE_DESKTOP=gnome
+#export DE=xfce
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
+export VIRTUALENV_USE_DISTRIBUTE=1
 
-nitrogen --restore &
+#nitrogen --restore &
 #xplanetFX --autostart &
-xcompmgr &
-exec dbus-launch openbox-session
+#xcompmgr &
+#exec ck-launch-session dbus-launch openbox-session
+exec ck-launch-session dbus-launch gnome-session-cinnamon
 #exec ck-launch-session startkde
 #exec dbus-launch gnome-session
 

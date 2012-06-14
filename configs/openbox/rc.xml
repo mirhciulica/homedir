@@ -16,9 +16,10 @@
     <policy>Smart</policy>
     <center>no</center>
     <monitor>Active</monitor>
+    <primaryMonitor/>
   </placement>
   <theme>
-    <name>Orta-Openbox</name>
+    <name>Zukini</name>
     <titleLayout>NLIMC</titleLayout>
     <keepBorder>yes</keepBorder>
     <animateIconify>no</animateIconify>
@@ -46,11 +47,14 @@
       <weight>Normal</weight>
       <slant>Normal</slant>
     </font>
-    <font place="OnScreenDisplay">
-      <name>Ubuntu</name>
-      <size>9</size>
-      <weight>Bold</weight>
-      <slant>Normal</slant>
+    <font place="ActiveOnScreenDisplay">
+      <name/>
+    </font>
+    <font place="InactiveOnScreenDisplay">
+      <name>Sans</name>
+      <size>8</size>
+      <weight/>
+      <slant/>
     </font>
   </theme>
   <desktops>

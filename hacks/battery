@@ -24,6 +24,7 @@ function check_battery()
         echo 'hibernating' >> $LOG_FILE
         echo '----------' >> $LOG_FILE
         pm-hibernate
+        #dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
     fi
 }
 

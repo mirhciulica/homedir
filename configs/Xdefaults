@@ -10,7 +10,7 @@ URxvt.geometry: 90x24
 URxvt.font: xft:ProggyCleanTT:pixelsize=16
 URxvt.perl-lib:		        /usr/lib/URxvt/perl/
 URxvt.perl-ext-common:	        default,matcher
-URxvt.urlLauncher:	        chromium
+URxvt.urlLauncher:	        firefox
 URxvt.matcher.button:	        1
 URxvt.matcher.pattern.1:        \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
 URxvt.urgentOnBell: true
@@ -21,8 +21,8 @@ urxvt.scrollBar_floating: 0
 URxvt.transparency:true
 URxvt.shading: 35
 URxvt.depth: 32
-URxvt.background:[90]Black
-#URxvt.background: rgba:0000/0000/0000/dddd
+#URxvt.background:[90]Black
+URxvt.background: rgba:0000/0000/0000/dddd
 URxvt.fading: 0
 URxvt.cursorColor: #ffffff
 URxvt.tabbed.tabbar-fg: 2
@@ -31,7 +31,7 @@ URxvt.tabbed.tab-fg:    0
 URxvt.tabbed.tab-bg:    2
 urxvt.scrollWithBuffer:   false
 urxvt.scrollTtyOutput:    true
-Urxvt.iconsFile: /usr/share/pixmaps/rxvt-unicode.png
+#Urxvt.iconsFile: /usr/share/pixmaps/rxvt-unicode.png
 
 !Xcursor.theme: Shere Khan X
 

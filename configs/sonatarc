@@ -11,10 +11,10 @@ auto = True
 profile_num = 0
 
 [player]
-w = 421
-h = 372
-x = 186
-y = 0
+w = 704
+h = 423
+x = 659
+y = 239
 expanded = True
 withdrawn = False
 screen = 0
@@ -72,7 +72,7 @@ lib_album = !NONE!
 lib_artist = !NONE!
 lib_genre = !NONE!
 lib_year = !NONE!
-lib_path = /
+lib_path = trance
 lib_view = 0
 
 [currformat]

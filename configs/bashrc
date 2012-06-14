@@ -114,17 +114,17 @@ alias grep='grep --color=auto'
 
 #maintenace
 alias !="sudo"
-alias install="sudo pacman-color -S"
-alias update="sudo pacman-color -Sy"
-alias upgrade="sudo pacman-color -Su"
+alias install="sudo pacman -S"
+alias update="sudo pacman -Sy"
+alias upgrade="sudo pacman -Su"
 alias upgrade-aur="yaourt -Su --aur"
-alias remove="sudo pacman-color -Rs"
-alias search="sudo pacman-color -Ss"
+alias remove="sudo pacman -Rs"
+alias search="sudo pacman -Ss"
 alias search-aur="yaourt -Ss --aur"
-alias install-l="sudo pacman-color -U"
-alias clean="sudo pacman-color -Scc"
-alias search-i="sudo pacman-color -Qs"
-alias clean-u="sudo pacman-color -Qqdt"
+alias install-l="sudo pacman -U"
+alias clean="sudo pacman -Scc"
+alias search-i="sudo pacman -Qs"
+alias clean-u="sudo pacman -Qqdt"
 
 alias ~='cd ~'
 alias ..='cd ..'
