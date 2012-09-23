@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# taken from
+# http://dancingpenguinsoflight.com/2010/02/converting-multiple-images-to-one-pdf-on-linux/
+
+#cd FOLDER_WITH_IMAGES
+FILES=$( find . -type f -name "*jpg" | cut -d/ -f 2)
+mkdir temp && cd temp
+for file in $FILES; do
+    BASE=$(echo $file | sed 's/.jpg//g');
+    convert ../$BASE.jpg $BASE.pdf;
+    done &&
+pdftk *pdf cat output ../FINAL_NAME.pdf &&
+#cd ..
+rm -rf temp

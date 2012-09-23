@@ -34,8 +34,10 @@ compinit
 # Key bindings
 #bindkey "\e[1~" beginning-of-line # Home
 #bindkey "\e[4~" end-of-line # End
-bindkey "^[OH" beginning-of-line # Home
-bindkey "^[OF" end-of-line # End
+#bindkey "^[OH" beginning-of-line # Home
+#bindkey "^[OF" end-of-line # End
+bindkey "\E[1~" beginning-of-line # Home
+bindkey "\E[4~" end-of-line # End
 bindkey "\e[5~" beginning-of-history # PageUp
 bindkey "\e[6~" end-of-history # PageDown
 bindkey "\e[2~" quoted-insert # Ins
@@ -130,9 +132,12 @@ alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/vi
 alias mount-mtp='(sudo mtpfs /media/mtp -o allow_other) && thunar /media/mtp'
 alias umount-mtp='sudo umount /media/mtp'
 
-#start/stop/restart services
-sstart () { sudo /etc/rc.d/$* start; }
-sstop () { sudo /etc/rc.d/$* stop; }
-srestart () { sudo /etc/rc.d/$* restart; }
+
+start() { sudo systemctl start $1 }
+restart() { sudo systemctl restart $1 }
+stop() { sudo systemctl stop $1 }
+enable() { sudo systemctl enable $1 }
+status() { sudo systemctl status $1 }
+disable() { sudo systemctl disable $1 }
 
 alias suicide='echo "How dare you? Kill yourserlf!"'

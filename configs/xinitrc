@@ -12,7 +12,7 @@ export VIRTUALENV_USE_DISTRIBUTE=1
 #xplanetFX --autostart &
 #xcompmgr &
 #exec ck-launch-session dbus-launch openbox-session
-exec ck-launch-session dbus-launch gnome-session-cinnamon
+#exec ck-launch-session dbus-launch gnome-session-cinnamon
 #exec ck-launch-session startkde
 #exec dbus-launch gnome-session
 
