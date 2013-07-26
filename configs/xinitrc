@@ -2,23 +2,13 @@
 #
 # ~/.xinitrc
 
-#export OOO_FORCE_DESKTOP=gnome
-#export DE=xfce
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
 
-#nitrogen --restore &
-#xplanetFX --autostart &
-#xcompmgr &
-#exec ck-launch-session dbus-launch openbox-session
-#exec ck-launch-session dbus-launch gnome-session-cinnamon
-#exec ck-launch-session startkde
-#exec dbus-launch gnome-session
+while true; do
+  xsetroot -name "Bat. $( acpi -b | awk '{ print $4 " " $5 }' | tr -d ',' ) | Vol. $(amixer get Master | tail -1 | awk '{ print $5}' | tr -d '[]') | $(date +"%a, %b %d %R")"
+  sleep 1m    # Update time every minute
+done &
 
-#while true; do
-#	xsetroot -name "Bat. $( acpi -b | awk '{ print $4 " " $5 }' | tr -d ',' ) | Vol. $(amixer get Master | tail -1 | awk '{ print $5}' | tr -d '[]') | $(date +"%a, %b %d %R")"
-#	sleep 1m    # Update time every minute
-#done &
-
-#exec ~/bin/startdwm
+exec ~/bin/startdwm
