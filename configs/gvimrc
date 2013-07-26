@@ -1,5 +1,6 @@
 let &guicursor = &guicursor . ",a:blinkon0"
 set guioptions-=T
+set guioptions-=r
 aunmenu ToolBar.SaveAll
 aunmenu ToolBar.FindNext
 aunmenu ToolBar.FindPrev

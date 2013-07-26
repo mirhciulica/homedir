@@ -1,7 +1,7 @@
 # Options for Zsh
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt autocd appendhistory extendedglob notify
 setopt correct
 setopt autocd
@@ -100,8 +100,7 @@ alias ll='ls -lh --color=auto'
 alias lla='ls -lah --color=auto'
 export GREP_COLOR="1;33"
 alias grep='grep --color=auto'
-
-alias gvim='gvim --servername GVIM --remote-tab-silent'
+alias rm='rm -i'
 
 # maintenace aliases
 alias !="sudo"
@@ -109,13 +108,33 @@ alias install="sudo pacman -S"
 alias update="sudo pacman -Sy"
 alias upgrade="sudo pacman -Su"
 alias upgrade-aur="yaourt -Su --aur"
-alias remove="sudo pacman -Rs"
+alias remove="sudo pacman -Rns"
 alias search="sudo pacman -Ss"
 alias search-aur="yaourt -Ss --aur"
 alias install-l="sudo pacman -U"
 alias clean="sudo pacman -Scc"
 alias search-i="sudo pacman -Qs"
-alias clean-u="sudo pacman -Qqdt"
+alias check-orphans="sudo pacman -Qdt"
+remove-orphans() { sudo pacman -Rscn $(pacman -Qtdq); }
+
+alias dus='du -sckx * | sort -nr'
+
+# git
+alias ga='git add'
+alias gp='git push'
+alias gl='git log'
+alias gs='git status'
+alias gd='git diff'
+alias gm='git commit -m'
+alias gma='git commit -am'
+alias gb='git branch'
+alias gc='git checkout'
+alias gra='git remote add'
+alias grr='git remote rm'
+alias gpu='git pull'
+alias gcl='git clone'
+alias gta='git tag -a -m'
+alias gf='git reflog'
 
 alias sigkill='killall -9 $*'
 alias sigterm='killall -15 $*'
@@ -131,6 +150,11 @@ alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/vi
 #mtp stuff
 alias mount-mtp='(sudo mtpfs /media/mtp -o allow_other) && thunar /media/mtp'
 alias umount-mtp='sudo umount /media/mtp'
+
+
+alias skype='xhost +local: && sudo -u skype /usr/bin/skype'
+
+alias adb_logcat='adb logcat -v long'
 
 
 start() { sudo systemctl start $1 }

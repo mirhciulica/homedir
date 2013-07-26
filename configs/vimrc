@@ -31,6 +31,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if has("gui_running")
+    set lines=50 columns=85
     "autocmd VimEnter * NERDTree
     "#autocmd VimEnter * wincmd p
 endif

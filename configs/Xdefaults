@@ -1,123 +1,48 @@
 ! ----------------------------------------------------------------------------
 ! file:     ~/.Xdefaults
-! author:   mirhciulica http://mirhciulica.alwaysdata.com
-! modified: April 2010
+! author:   mirhciulica
+! modified: July 2013
 ! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
 ! ----------------------------------------------------------------------------
 
-URxvt.foreground: #ffffff
-URxvt.geometry: 90x24
-URxvt.font: xft:ProggyCleanTT:pixelsize=16
-URxvt.perl-lib:		        /usr/lib/URxvt/perl/
-URxvt.perl-ext-common:	        default,matcher
-URxvt.urlLauncher:	        firefox
-URxvt.matcher.button:	        1
-URxvt.matcher.pattern.1:        \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
-URxvt.urgentOnBell: true
-URxvt.saveLines: 8192
-URxvt.scrollBar: 0
-urxvt.scrollBar_right: 1
-urxvt.scrollBar_floating: 0
-URxvt.transparency:true
-URxvt.shading: 35
+! Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
+
+URxvt.scrollstyle: plain
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+
+URxvt.font: xft:Monospace:style=Regular:pixelsize=11:antialias=false:hinting=true:hintstyle=hintfull
+
+! colors from bcat
+! https://bbs.archlinux.org/viewtopic.php?pid=1084640#p1084640
 URxvt.depth: 32
-#URxvt.background:[90]Black
-URxvt.background: rgba:0000/0000/0000/dddd
-URxvt.fading: 0
-URxvt.cursorColor: #ffffff
-URxvt.tabbed.tabbar-fg: 2
-URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg:    0
-URxvt.tabbed.tab-bg:    2
-urxvt.scrollWithBuffer:   false
-urxvt.scrollTtyOutput:    true
-#Urxvt.iconsFile: /usr/share/pixmaps/rxvt-unicode.png
-
-!Xcursor.theme: Shere Khan X
-
-! Black
-*color0:    rgb:00/00/00
-! Red
-*color1:    rgb:ff/5d/28
-! Green
-*color2:    rgb:b1/d6/31
-! Yellow
-*color3:    rgb:e6/ea/50
-! Blue
-*color4:    rgb:7e/8a/a2
-! Magenta
-*color5:    rgb:af/5f/5f
-! Cyan
-*color6:    rgb:ac/f0/f2
-! White
-*color7:    rgb:e2/e2/e5
-! Black
-*color8:    rgb:00/00/00
-! Red
-*color9:    rgb:ff/5d/28
-! Green
-*color10:    rgb:b1/d6/31
-! Yellow
-*color11:    rgb:e6/ea/50
-! Blue
-*color12:    rgb:7e/8a/a2
-! Magenta
-*color13:    rgb:af/5f/5f
-! Cyan
-*color14:    rgb:ac/f0/f2
-! White
-*color15:    rgb:e2/e2/e5
-
-! xscreensaver ---------------------------------------------------------------
-!
-! !font settings
-xscreensaver.Dialog.headingFont:        -*-droid-sans-bold-r-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.bodyFont:		-*-droid-sans-regular-r-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.labelFont:		-*-droid-sans-regular-r-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.unameFont:		-*-droid-sans-regular-r-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.buttonFont:         -*-droid-sans-bold-r-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.dateFont:		-*-droid-sans-regular-r-*-12-*-*-*-*-*-*-*
-xscreensaver.passwd.passwdFont:         -*-droid-sans-bold-r-*-12-*-*-*-*-*-*-*
-!general dialog box (affects main hostname, username, password text)
-xscreensaver.Dialog.foreground:         #ffffff
-xscreensaver.Dialog.background:         #111111
-xscreensaver.Dialog.topShadowColor:     #111111
-xscreensaver.Dialog.bottomShadowColor:  #111111
-xscreensaver.Dialog.Button.foreground:  #000000
-xscreensaver.Dialog.Button.background:  #ffffff
-!username/password input box and date text colour
-xscreensaver.Dialog.text.foreground:    #000000
-xscreensaver.Dialog.text.background:    #ffffff
-xscreensaver.Dialog.internalBorderWidth:24
-xscreensaver.Dialog.borderWidth:        20
-xscreensaver.Dialog.shadowThickness:    2
-!timeout bar (background is actually determined by Dialog.text.background)
-xscreensaver.passwd.thermometer.foreground:  #ff0000
-xscreensaver.passwd.thermometer.background:  #000000
-xscreensaver.passwd.thermometer.width:       8
-!datestamp format--see the strftime(3) manual page for details
-!xscreensaver.dateFormat:    %H:%M %a, %d %b. %Y
-xscreensaver.dateFormat:
-!logo and text
-xscreensaver.Dialog.logo.width:		10
-xscreensaver.Dialog.logo.height:	10
-!xscreensaver.passwd.heading.label:		XScreenSaver %s 55
-xscreensaver.passwd.heading.label:	
-xscreensaver.passwd.body.label:		This screen is locked.
-xscreensaver.passwd.unlock.label:		OK
-xscreensaver.passwd.login.label:		New Login
-xscreensaver.passwd.user.label:		Username:
-xscreensaver.passwd.asterisks:              True
-xscreensaver.passwd.uname:                  True
-
-
-XLock.mode: blank
-XLock.description: off
-XLock.info: 
-XLock.timeout: 3
-XLock.timeelapsed: on
-XLock.geometry: 0x0
-XLock.showdate: off
-XLock.echokeys: on
-XLock.echokey: .
-XLock.icongeometry: 32x32
+URxvt.background: #111111
+URxvt.foreground: #dddddd
+! (black: dark_brown / light_brown)
+URxvt.color0: #0a0806
+URxvt.color8: #816749
+! (red: red / pink)
+URxvt.color1: #d80450
+URxvt.color9: #ec6c99
+! (green: green / lime_green)
+URxvt.color2: #76bc20
+URxvt.color10: #94d900
+! (yellow: orange / yellow)
+URxvt.color3: #fbb32f
+URxvt.color11: #e5e339
+! (blue: blue / pastel_green)
+URxvt.color4: #3f91f1
+URxvt.color12: #d8ff84
+! (magenta: burnt_orange / lavender)
+URxvt.color5: #f63f05
+URxvt.color13: #e6a2f3
+! (cyan: pastel_blue / pastel_blue)
+URxvt.color6: #8ccdf0
+URxvt.color14: #8ccdf0
+! (white: brown / tan)
+URxvt.color7: #1f1912
+URxvt.color15: #fee3b4
