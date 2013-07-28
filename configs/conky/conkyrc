@@ -1,64 +1,11 @@
-# Created on 07.2010 by mirhciulica
+# Created on 07.2013 by mirhciulica
 
-# -- Conky settings -- #
+out_to_console yes
+out_to_x no
 background no
-update_interval 1
-update_interval_on_battery 3
- 
-cpu_avg_samples 2
- 
-override_utf8_locale yes
- 
-double_buffer yes
-no_buffers yes
- 
-text_buffer_size 256
-imlib_cache_size 0
- 
-# -- Window specifications -- #
- 
-own_window  yes
-own_window_transparent yes
-own_window_type desktop
-own_window_hints undecorate,above,sticky,skip_taskbar,skip_pager
-
-border_inner_margin 1
-border_outer_margin 0
- 
-minimum_size 47 182
-maximum_width 50
- 
-alignment bottom_left
-gap_x 1
-gap_y 0
- 
-# -- Graphics settings -- #
-draw_shades no
-draw_outline no
-draw_borders no
-draw_graph_borders no
- 
-# -- Text settings -- #
-use_xft yes
-xftfont Ubuntu:size=7.5
-#xftalpha 0.4
- 
-uppercase no
- 
-default_color 252525
-border_width 0
-
-mpd_host 127.0.0.1
-mpd_port 6600
- 
-# -- Lua Load -- #
-lua_load ~/configs/conky/lua
-lua_draw_hook_pre ring_stats
- 
+update_interval 2
+total_run_times 0
+use_spacer none
 
 TEXT
-${voffset 9}${goto 16}${font Poky:size=14}P${font}
-${voffset 11}${goto 16}${font Poky:size=14}M${font}
-${voffset 11}${goto 18}${font Poky:size=16}${if_mpd_playing}${if_match "${mpd_status}"=="Playing"}9${endif}${if_match "${mpd_status}"=="Paused"}6${endif}${endif}${if_match "${mpd_status}"=="Stopped"}8${endif}${font}
-
-${execpi 61 cat ~/configs/conky/input}
+$mpd_status :: ${cpu cpu1}% / ${cpu cpu2}% :: $memperc% ($mem) :: ${acpitemp}C :: ${exec \amixer -c 0 get PCM | grep 'Front Left:' | awk '{print $5}' | tr -d '[]'} :: ${if_match ${battery_percent BAT1} < 100}${battery_percent BAT1}%${else}AC${endif} :: ${time %a %b %d %H:%M}

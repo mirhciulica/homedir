@@ -19,7 +19,7 @@ selected_item_prefix                  = "$6"
 selected_item_suffix                  = "$9"
 song_status_format                    = "{(%l) }{%a - }{%t}|{%f}"
 song_window_title_format              = "{%a - }{%t}|{%f}"
-song_columns_list_format              = "(5)[magenta]{l} (28)[cyan]{a} (30)[blue]{b} (50)[white]{t}"
+song_columns_list_format              = "(5)[magenta]{l} (28)[cyan]{a} (30)[blue]{b} (50)[green]{t}"
 alternative_header_first_line_format  = "{%t}"
 alternative_header_second_line_format = "$7{%a} - $5{%b} $8{(%y)}"
 

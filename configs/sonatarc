@@ -11,10 +11,10 @@ auto = True
 profile_num = 0
 
 [player]
-w = 704
-h = 423
-x = 478
-y = 227
+w = 1364
+h = 374
+x = 0
+y = 15
 expanded = True
 withdrawn = False
 screen = 0

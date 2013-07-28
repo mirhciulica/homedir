@@ -11,6 +11,7 @@ Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
 
+URxvt.scrollBar: false
 URxvt.scrollstyle: plain
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true

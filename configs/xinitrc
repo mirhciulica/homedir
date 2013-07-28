@@ -6,9 +6,16 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
 
-while true; do
-  xsetroot -name "Bat. $( acpi -b | awk '{ print $4 " " $5 }' | tr -d ',' ) | Vol. $(amixer get Master | tail -1 | awk '{ print $5}' | tr -d '[]') | $(date +"%a, %b %d %R")"
-  sleep 1m    # Update time every minute
-done &
+upower &
+numlockx &
+[ ! -s ~/.mpd/pid ] && mpd &
+python2 bin/desktopd &
+urxvt -e tmux attach -t 0 &
+conky | while read -r; do xsetroot -name "$REPLY"; done &
+
+#while true; do
+  #xsetroot -name "Bat. $(acpi -b | awk 'sub(/,/,"") {print $3, $4}') | Vol. $(awk '/dB/ { gsub(/[\[\]]/,""); print $5}' <(amixer get PCM)) | $(date +"%a, %b %d %R")"
+  #sleep 1m
+#done &
 
 exec ~/bin/startdwm
