@@ -6,16 +6,12 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
 
-upower &
+upower -e &
 numlockx &
-[ ! -s ~/.mpd/pid ] && mpd &
-python2 bin/desktopd &
 urxvt -e tmux attach -t 0 &
 conky | while read -r; do xsetroot -name "$REPLY"; done &
-
-#while true; do
-  #xsetroot -name "Bat. $(acpi -b | awk 'sub(/,/,"") {print $3, $4}') | Vol. $(awk '/dB/ { gsub(/[\[\]]/,""); print $5}' <(amixer get PCM)) | $(date +"%a, %b %d %R")"
-  #sleep 1m
-#done &
+sh ~/.fehbg &
+[ ! -s ~/.mpd/pid ] && mpd &
+dropboxd &
 
 exec ~/bin/startdwm
