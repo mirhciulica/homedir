@@ -1,5 +1,0 @@
-#!/bin/bash
-
-while true; do
-    dwm 2> ~/temp/dwm.log
-done

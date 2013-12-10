@@ -2,16 +2,22 @@
 #
 # ~/.xinitrc
 
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
+export POWERLINE_COMMAND="powerline"
 
 upower -e &
 numlockx &
-urxvt -e tmux attach -t 0 &
-conky | while read -r; do xsetroot -name "$REPLY"; done &
 sh ~/.fehbg &
-[ ! -s ~/.mpd/pid ] && mpd &
 dropboxd &
+(mpd && sleep 3 && urxvt -e tmux -u attach -t 0) &
 
-exec ~/bin/startdwm
+exec dbus-launch python ~/bin/dwm/launcher.py

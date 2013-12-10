@@ -1,0 +1,29 @@
+version: 1
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%m/%d/%Y %H:%M:%S'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  file_handler:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: simple
+    filename: temp/dwm.log
+    encoding: utf8
+loggers:
+  DwmStarterThread:
+    level: INFO
+    handlers: [file_handler]
+    propagate: no
+  DwmStatusThread:
+    level: INFO
+    handlers: [file_handler]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [file_handler]

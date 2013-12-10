@@ -1,48 +1,6 @@
-# Options for Zsh
-HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
-setopt autocd appendhistory extendedglob notify
-setopt correct
-setopt autocd
-setopt nobanghist
-setopt noclobber
-setopt nobeep
-autoload colors zsh/terminfo
-if [[ "$terminfo[colors]" -ge 8 ]]; then
-      colors
-fi
-PROMPT=" [ %(?.%{${fg[green]}%}%B%1~%b.%{${fg[red]}%}%B%1~%b)%{${fg[default]}%} ] > "
+[[ -z "$TMUX" ]] && exec tmux attach -t 0
 
-
-# Completion
-
-zstyle ':completion:*' completer _complete _ignored _match _approximate
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 3
-zstyle ':completion:*' menu select=1
-zstyle ':completion:*' prompt '%e'
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zmodload -i zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle :compinstall filename '/home/mirciulica/.zshrc'
-autoload -U compinit
-compinit
-
-
-# Key bindings
-#bindkey "\e[1~" beginning-of-line # Home
-#bindkey "\e[4~" end-of-line # End
-#bindkey "^[OH" beginning-of-line # Home
-#bindkey "^[OF" end-of-line # End
-bindkey "\E[1~" beginning-of-line # Home
-bindkey "\E[4~" end-of-line # End
-bindkey "\e[5~" beginning-of-history # PageUp
-bindkey "\e[6~" end-of-history # PageDown
-bindkey "\e[2~" quoted-insert # Ins
-bindkey "\e[3~" delete-char # Del
-bindkey "\e[Z" reverse-menu-complete # Shift+Tab
+# using grml-zsh-config
 
 # Functions 
 
@@ -76,9 +34,9 @@ extract () {
 }
 
 # Creates an archive from given directory
-mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
-mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
-mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+mktar() { tar cvf  "${1%%/}.tar"     --checkpoint=10000 --checkpoint-action=dot "${1%%/}/"; }
+mktgz() { tar cvzf "${1%%/}.tar.gz"  --checkpoint=10000 --checkpoint-action=dot "${1%%/}/"; }
+mktbz() { tar cvjf "${1%%/}.tar.bz2" --checkpoint=10000 --checkpoint-action=dot "${1%%/}/"; }
 
 
 # Aliases
@@ -88,8 +46,8 @@ alias -g L='|less' # dmesg L
 alias -g ...='../../'
 
 # suffix aliases
-#alias -s py=vim
-alias -s pdf=evince
+alias -s py=vim
+alias -s pdf=zathura
 
 # directory aliases
 hash -d down=~/Desktop/Downloads
@@ -140,22 +98,15 @@ alias sigkill='killall -9 $*'
 alias sigterm='killall -15 $*'
 
 alias music='ncmpcpp'
-alias wall='nitrogen ~/Pictures/wallpapers/gorgeous --sort=rtime'
 
 alias xp='xprop | grep "WM_WINDOW_ROLE\|WM_CLASS" && echo "WM_CLASS(STRING) = \"NAME\", \"CLASS\""'
 
 alias webpic='mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot'
 alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0:forceaudio:adevice=/dev/dsp -ovc lavc -oac mp3lame -lameopts cbr:br=64:mode=3 -o film.avi'
 
-#mtp stuff
-alias mount-mtp='(sudo mtpfs /media/mtp -o allow_other) && thunar /media/mtp'
-alias umount-mtp='sudo umount /media/mtp'
-
-
 alias skype='xhost +local: && sudo -u skype /usr/bin/skype'
 
 alias adb_logcat='adb logcat -v long'
-
 
 start() { sudo systemctl start $1 }
 restart() { sudo systemctl restart $1 }
