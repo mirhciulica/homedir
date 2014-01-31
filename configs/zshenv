@@ -1,2 +1,1 @@
-path=(~/bin ~/hacks $path)
-eval `dircolors -b`
+# any path set here is overriten by /etc/profile

@@ -1,5 +1,12 @@
 [[ -z "$TMUX" ]] && exec tmux attach -t 0
 
+# For debugging purposes
+#setopt XTRACE VERBOSE
+
+typeset -U path
+path=(~/bin ~/hacks $path)
+eval `dircolors -b`
+
 # using grml-zsh-config
 
 # Functions 
@@ -70,7 +77,7 @@ alias remove="sudo pacman -Rns"
 alias search="sudo pacman -Ss"
 alias search-aur="yaourt -Ss --aur"
 alias install-l="sudo pacman -U"
-alias clean="sudo pacman -Scc"
+alias clean="sudo pacman -Sc"
 alias search-i="sudo pacman -Qs"
 alias check-orphans="sudo pacman -Qdt"
 remove-orphans() { sudo pacman -Rscn $(pacman -Qtdq); }
@@ -108,11 +115,11 @@ alias skype='xhost +local: && sudo -u skype /usr/bin/skype'
 
 alias adb_logcat='adb logcat -v long'
 
-start() { sudo systemctl start $1 }
-restart() { sudo systemctl restart $1 }
-stop() { sudo systemctl stop $1 }
-enable() { sudo systemctl enable $1 }
-status() { sudo systemctl status $1 }
-disable() { sudo systemctl disable $1 }
+sstart() { sudo systemctl start $1 }
+srestart() { sudo systemctl restart $1 }
+sstop() { sudo systemctl stop $1 }
+senable() { sudo systemctl enable $1 }
+sstatus() { sudo systemctl status $1 }
+sdisable() { sudo systemctl disable $1 }
 
 alias suicide='echo "How dare you? Kill yourserlf!"'
