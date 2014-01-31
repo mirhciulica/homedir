@@ -110,9 +110,13 @@ class CpuThread(ThreadCommon):
         stat_b = self._read_proc_stat()
         total_b = sum(stat_b.values())
 
-        return "{:.0%}".format(
-            (1 - (stat_b['idle'] - stat_a['idle']) / (total_b - total_a))
-        )
+        stat_diff = (stat_b['idle'] - stat_a['idle'])
+        total_diff = (total_b - total_a)
+
+        if abs(total_diff) < 0.00000001:
+            return "{:.0%}".format(0)
+        else:
+            return "{:.0%}".format(1 - stat_diff / total_diff)
 
 
     def _run_loop(self):
