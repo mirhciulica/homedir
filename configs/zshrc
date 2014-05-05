@@ -111,8 +111,6 @@ alias xp='xprop | grep "WM_WINDOW_ROLE\|WM_CLASS" && echo "WM_CLASS(STRING) = \"
 alias webpic='mplayer tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0 -fps 15 -vf screenshot'
 alias webvid='mencoder tv:// -tv driver=v4l2:width=640:height=480:device=/dev/video0:forceaudio:adevice=/dev/dsp -ovc lavc -oac mp3lame -lameopts cbr:br=64:mode=3 -o film.avi'
 
-alias skype='xhost +local: && sudo -u skype /usr/bin/skype'
-
 alias adb_logcat='adb logcat -v long'
 
 sstart() { sudo systemctl start $1 }

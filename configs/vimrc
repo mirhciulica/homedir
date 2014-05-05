@@ -1,43 +1,15 @@
 " Created 05.11.2009 by mirhciulica
+
+set autoindent
+set encoding=utf-8
+set hidden
+set nocompatible
+set showcmd
+set showmatch
+set showmode
+set smartindent
 set wildmenu
 set wildmode=list:longest,full
-set autoindent
-set smartindent
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set mouse=a             " make sure mouse is used in all cases.
-set showmatch           " show matching brackets (),{},[]
-set number
-set incsearch
-set smartcase
-set bg=dark
-filetype plugin indent on
-set ofu=syntaxcomplete#Complete
-setlocal tw=80
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-
-" Start of PowerLine support
-let $PYTHONPATH="/usr/lib/python3.3/site-packages" 
-set encoding=utf-8
-set laststatus=2
-set noshowmode
-let g:Powerline_symbols = 'fancy'
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=1000
-    augroup END
-endif
-" End of PowerLine support
-
-" Supertab smarter completition. 
-" if '/' -> filename completition, otherwise omnicompletition
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -46,22 +18,95 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
+
+set backspace=indent,eol,start
+set laststatus=2
+set ruler
+set ttyfast
+
+set incsearch
+set mouse=a
+set norelativenumber
+set number
+set pastetoggle=<F3>
+set smartcase
+set title
+
+set nowrap
+set textwidth=79
+set formatoptions=qrn1
+try
+    set colorcolumn=80
+catch
+endtry
+
+set bg=dark
+set grepprg=grep\ -nH\ $*
+set ofu=syntaxcomplete#Complete
+filetype plugin indent on
+setlocal tw=80
+let g:tex_flavor = "latex"
+
 if has("gui_running")
+    " CR doesn't work in gVim
+    map <lf> <cr>
+    set guitablabel=%-0.12t%M
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    set guioptions+=a
+    set guioptions-=m
     set lines=50 columns=85
     set guifont=Inconsolata\ for\ PowerLine\ Medium\ 10
-    "autocmd VimEnter * NERDTree
-    "#autocmd VimEnter * wincmd p
 endif
+
+" Added from haridas on 04.05.2014
+" https://github.com/haridas/Dotfiles/blob/master/vim-files/vim/vimrc#L119
+"
+let mapleader = ","
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+
+",W Command to remove white space from a file.
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" ,ft Fold tag, helpful for HTML editing.
+nnoremap <leader>ft vatzf
+
+" ,q Re-hardwrap Paragraph
+nnoremap <leader>q gqip
+
+" ,v Select just pasted text.
+nnoremap <leader>v V`]
+
+" ,ev Shortcut to edit .vimrc file on the fly on a vertical window.
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+
+" Supertab smarter completition. 
+" if '/' -> filename completition, otherwise omnicompletition
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 
 " don't blink the screen
 set novb
 
 " highlight redundant whitespaces and tabs.
-"highlight RedundantSpaces ctermbg=red guibg=red
-"match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
+highlight RedundantSpaces ctermbg=red guibg=red
+match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
 
 set t_Co=256
-colorscheme molokai-transparent
+colorscheme molokai
 
 " tab navigation like firefox
 nmap <C-S-tab> :tabprevious<cr>
@@ -83,7 +128,6 @@ end
 " diff undos command
 "
 nmap du :wincmd w<cr>:normal u<cr>:wincmd w<cr>
-
 
 "
 " Enable spellchecking conditionally
@@ -138,24 +182,24 @@ set modeline
 " Mapping from usenet
 imap jj <Esc>
 
-autocmd FileType text setlocal autoindent expandtab sts=4 sw=4
-autocmd FileType java 	setlocal tw=78 cin foldmethod=marker
-autocmd FileType c,cpp 	setlocal tw=78 cindent expandtab sts=4 sw=4
-autocmd FileType python setlocal autoindent expandtab sts=4 sw=4
-autocmd FileType haskell setlocal tw=72 sw=2 sts=2 et
-autocmd FileType tex	 setlocal tw=72 sw=2 sts=2 ai
-autocmd FileType tex	 so ~/.vim/abbrevs.vim
-autocmd FileType php	 setlocal tw=80 cindent fo=croql expandtab sts=4 sw=4
-autocmd FileType html setlocal autoindent expandtab sts=4 sw=4
-autocmd FileType xml setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType text       setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType java 	    setlocal tw=78 cin foldmethod=marker
+autocmd FileType c,cpp 	    setlocal tw=78 cindent expandtab sts=4 sw=4
+autocmd FileType python     setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType haskell    setlocal tw=72 sw=2 sts=2 et
+autocmd FileType tex	    setlocal tw=72 sw=2 sts=2 ai
+autocmd FileType tex	    so ~/.vim/abbrevs.vim
+autocmd FileType php	    setlocal tw=80 cindent fo=croql expandtab sts=4 sw=4
+autocmd FileType html       setlocal autoindent expandtab sts=4 sw=4
+autocmd FileType xml        setlocal autoindent expandtab sts=4 sw=4
 autocmd FileType actionscript setlocal autoindent sts=4 sw=4 tw=100
-autocmd BufRead,BufNewFile *.wiki setlocal ft=creole
-autocmd BufRead,BufNewFile *.tex setlocal ft=tex
-autocmd BufRead,BufNewFile *.cool setlocal ft=cool
-autocmd BufRead,BufNewFile *.cl setlocal ft=cool
-autocmd BufRead,BufNewFile *.miC setlocal ft=C
-autocmd BufRead,BufNewFile *.g setlocal ft=antlr
-autocmd BufRead,BufNewFile *.as setlocal ft=actionscript
+autocmd BufRead,BufNewFile *.wiki   setlocal ft=creole
+autocmd BufRead,BufNewFile *.tex    setlocal ft=tex
+autocmd BufRead,BufNewFile *.cool   setlocal ft=cool
+autocmd BufRead,BufNewFile *.cl     setlocal ft=cool
+autocmd BufRead,BufNewFile *.miC    setlocal ft=C
+autocmd BufRead,BufNewFile *.g      setlocal ft=antlr
+autocmd BufRead,BufNewFile *.as     setlocal ft=actionscript
 
 set autowrite
 
@@ -198,17 +242,17 @@ endif
 set tabpagemax=20
 
 " Use neocomplcache
-let g:neocomplcache_enable_at_startup = 1
+"let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
+"let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
+"let g:neocomplcache_enable_camel_case_completion = 1
 " Set minimum syntax keyword length.
 "let g:neocomplcache_min_syntax_length = 3
 "let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*' 
 
 " SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " VAM
 fun! EnsureVamIsOnDisk(vam_install_path)
@@ -268,4 +312,23 @@ call SetupVAM()
 " option1: au VimEnter * call SetupVAM()
 " option2: au GUIEnter * call SetupVAM()
 
-call vam#ActivateAddons(["vim-haxe"])
+"call vam#ActivateAddons(["vim-haxe"])
+call vam#ActivateAddons(["github:tpope/vim-fugitive", "vim-airline", "Command-T", "Syntastic", "Tagbar", "github:scrooloose/nerdtree"])
+
+let g:airline_powerline_fonts = 1
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" Mapping to NERDTree
+nnoremap <C-n> :NERDTreeToggle<cr>
+let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
+
+" Tab color settings to make it more visible.
+hi MBEChanged ctermfg=white
+hi MBENormal ctermfg=white
+
+" Tagbar key bindings."
+nmap <leader>l <ESC>:TagbarToggle<cr>
+imap <leader>l <ESC>:TagbarToggle<cr>i

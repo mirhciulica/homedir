@@ -10,13 +10,16 @@ Xft.hinting: true
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
+Xft.dpi: 99
 
 URxvt.scrollBar: false
 URxvt.scrollstyle: plain
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 
-URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=12:antialias=false:hinting=true:hintstyle=hintfull
+#URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=12:antialias=true:hinting=true:hintstyle=hintfull
+URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=13 
+#URxvt.font: xft:DejaVu Sans Mono:pixelsize=12
 
 ! colors from bcat
 ! https://bbs.archlinux.org/viewtopic.php?pid=1084640#p1084640
