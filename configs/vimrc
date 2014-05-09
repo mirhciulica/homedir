@@ -324,6 +324,7 @@ hi MBENormal ctermfg=white
 " Ctrlp
 let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 2
+nnoremap <esc><C-P> :CtrlPTag<cr>
 
 " Tagbar key bindings."
 nmap <leader>l <ESC>:TagbarToggle<cr>
