@@ -120,8 +120,8 @@ map <C-S-tab> :tabprevious<cr>
 map <C-tab> :tabnext<cr>
 imap <C-S-tab> <ESC>:tabprevious<cr>i
 imap <C-tab> <ESC>:tabnext<cr>i
-nmap <C-t> :tabnew<cr>
-imap <C-t> <ESC>:tabnew<cr> 
+"nmap <C-t> :tabnew<cr>
+"imap <C-t> <ESC>:tabnew<cr> 
 " map \tx for the console version as well
 if !has("gui_running")
    nmap <Leader>tn :tabnext<cr>
@@ -242,6 +242,9 @@ if has("cscope")
         " Open a quicfix window for the following queries.
         set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
 endif
+
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " Max 20 tabs
 set tabpagemax=20

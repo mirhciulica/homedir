@@ -1,4 +1,4 @@
-[[ -z "$TMUX" ]] && exec tmux attach -t 0
+[[ -z "$TMUX" && -z $DISPLAY && $XDG_VTNR -eq 7 ]] && exec tmux attach -t 0
 
 # For debugging purposes
 #setopt XTRACE VERBOSE
