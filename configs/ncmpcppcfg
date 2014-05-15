@@ -10,7 +10,7 @@ playlist_disable_highlight_delay = "5"
 message_delay_time = "5"
 
 ##### song format #####
-song_list_format                      = "{%a - %t}|{$8%f$9}{$3(%l)$9}"
+song_list_format                      = "{%a - %t}|{$5%f$9}{$3(%l)$9}"
 song_library_format                   = "{%n - }{%t}|{%f}"
 media_library_album_format            = "{(%y) }%b"
 tag_editor_album_format               = "{(%y) }%b"

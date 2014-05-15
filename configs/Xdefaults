@@ -1,7 +1,7 @@
 ! ----------------------------------------------------------------------------
 ! file:     ~/.Xdefaults
 ! author:   mirhciulica
-! modified: July 2013
+! modified: May 2014
 ! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
 ! ----------------------------------------------------------------------------
 
@@ -26,6 +26,7 @@ URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=13
 URxvt.depth: 32
 URxvt.background: #1E1E1E
 URxvt.foreground: #E6E6E6
+
 ! (black: dark_brown / light_brown)
 URxvt.color0: #0a0806
 URxvt.color8: #816749

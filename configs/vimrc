@@ -308,7 +308,7 @@ call SetupVAM()
 " option2: au GUIEnter * call SetupVAM()
 
 "call vam#ActivateAddons(["vim-haxe"])
-call vam#ActivateAddons(["github:tpope/vim-fugitive", "vim-airline", "ctrlp", "Syntastic", "neocomplcache", "Tagbar", "github:scrooloose/nerdtree"])
+call vam#ActivateAddons(["github:tpope/vim-fugitive", "vim-airline", "ctrlp", "Syntastic", "Supertab", "neocomplcache", "Tagbar", "github:scrooloose/nerdtree"])
 
 let g:airline_powerline_fonts = 1
 

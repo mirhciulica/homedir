@@ -62,7 +62,7 @@ class MpdThread(ThreadCommon):
         while not self.mpdSuccess:
             try:
                 self.mpd_client = mpd.MPDClient()
-                self.mpd_client.connect("localhost", 6600)
+                self.mpd_client.connect("127.0.0.1", 6600)
                 self.mpdSuccess = True
                 self._logger.info("connected to mpd daemon")
             except:

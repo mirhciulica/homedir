@@ -13,6 +13,10 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
 
+if [ -s ~/.Xmodmap ]; then
+    xmodmap ~/.Xmodmap
+fi
+
 numlockx &
 sh ~/.fehbg &
 dropboxd &
