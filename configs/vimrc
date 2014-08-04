@@ -132,7 +132,7 @@ vnoremap <F1> <ESC>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 
 " ,ft Fold tag, helpful for HTML editing.
-nnoremap <leader>ft vatzf
+" nnoremap <leader>ft vatzf
 
 " ,q Re-hardwrap Paragraph
 nnoremap <leader>q gqip
@@ -172,9 +172,10 @@ if !has("gui_running")
    nmap <leader><F4> :tabclose<cr>
 end
 
-nnoremap <leader>b :bp<CR>
-nnoremap <leader>f :bn<CR>
-nnoremap <leader>g :e#<CR>
+" using CtrlP now
+" nnoremap <leader>b :bp<CR>
+" nnoremap <leader>f :bn<CR>
+" nnoremap <leader>g :e#<CR>
 
 "
 " diff undos command
@@ -379,7 +380,14 @@ let g:ctrlp_user_command = {
     \ },
   \ }
 "  \ 'fallback': 'find %s -type f | egrep -v "/\.(git|hg|svn)|solr|tmp/" | egrep -v "\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$"'
-nnoremap <esc><C-P> :CtrlPTag<cr>
+nnoremap <leader>f :CtrlP<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>T :CtrlPBufTag<cr>
+nnoremap <leader>t :CtrlPTag<cr>
+nnoremap <leader>F :CtrlPCurWD<cr>
+nnoremap <leader>M :CtrlPMRUFiles<cr>
+nnoremap <leader>m :CtrlPMixed<cr>
+nnoremap <leader>B :CtrlPLine<cr>
 
 " Tagbar key bindings."
 nmap <leader>l <ESC>:TagbarToggle<cr>
