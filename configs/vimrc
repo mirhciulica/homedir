@@ -12,7 +12,7 @@ set wildmenu
 set wildmode=longest,list,full
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*.swp,*.cache
 if has("win16") || has("win32")
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 else
@@ -371,15 +371,18 @@ hi MBENormal ctermfg=white
 
 " Ctrlp
 let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = 'c'
+let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-  \ }
-"  \ 'fallback': 'find %s -type f | egrep -v "/\.(git|hg|svn)|solr|tmp/" | egrep -v "\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$"'
+" locate -r %s = matches files in current path
+" grep -Ev "\/[.][^/]*\/" = matches every path except ones which contain .word
+" lastly, most used programming file extensions are matched
+let g:ctrlp_user_command = 'locate -r %s | grep -Ev "\/[.][^/]*\/" | grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|xml|svg|html|htm|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt)$"'
+"let g:ctrlp_user_command = {
+"  \ 'types': {
+"    \ 1: ['.git', 'cd %s && git ls-files'],
+"    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+"    \ },
+"  \ }
 nnoremap <leader>f :CtrlP<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>T :CtrlPBufTag<cr>
