@@ -99,7 +99,7 @@ augroup last_edit
        \ endif
 augroup END
 " Remember info about open buffers on close
-set viminfo^=%
+"set viminfo^=%
 
 let mapleader = ","
 let g:mapleader = ","
@@ -370,16 +370,15 @@ hi MBENormal ctermfg=white
 
 " Ctrlp
 let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = ''
+let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_user_command = {
   \ 'types': {
     \ 1: ['.git', 'cd %s && git ls-files'],
     \ 2: ['.hg', 'hg --cwd %s locate -I .'],
     \ },
-  \ 'fallback': 'locate -0 .'
   \ }
-  ""\ 'fallback': 'find %s -type f | egrep -v "/\.(git|hg|svn)|solr|tmp/" | egrep -v "\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$"'
+"  \ 'fallback': 'find %s -type f | egrep -v "/\.(git|hg|svn)|solr|tmp/" | egrep -v "\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$"'
 nnoremap <esc><C-P> :CtrlPTag<cr>
 
 " Tagbar key bindings."
