@@ -9,8 +9,16 @@ set showmatch
 set showmode
 set smartindent
 set wildmenu
-set wildmode=list:longest,full
+set wildmode=longest,list,full
 
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+    set wildignore+=.git\*,.hg\*,.svn\*
+endif
+ 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -23,18 +31,28 @@ set softtabstop=4
 set tabstop=4
 set expandtab
 
-set backspace=indent,eol,start
+set ai
+set si
+
+set backspace=eol,start,indent
 set laststatus=2
 set ruler
 set ttyfast
+
+set list
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
 
 set incsearch
 set mouse=a
 set norelativenumber
 set number
 set pastetoggle=<F3>
+set ignorecase
 set smartcase
 set title
+set foldcolumn=1
 
 set nowrap
 set textwidth=79
@@ -69,11 +87,38 @@ if has("gui_running")
     endif
 endif
 
+" Added from begriffs on 04.08.2014
+" https://github.com/begriffs/vimrc/blob/master/.vimrc
+"
+" Return to last edit position when opening files (You want this!)
+augroup last_edit
+  autocmd!
+  autocmd BufReadPost *
+       \ if line("'\"") > 0 && line("'\"") <= line("$") |
+       \ exe "normal! g`\"" |
+       \ endif
+augroup END
+" Remember info about open buffers on close
+set viminfo^=%
+
+let mapleader = ","
+let g:mapleader = ","
+
+" Leader key timeout
+set tm=2000
+"
+" Allow the normal use of "," by pressing it twice
+noremap ,, ,
+
+" Open window splits in various places
+nmap <leader>sh :leftabove vnew<CR>
+nmap <leader>sl :rightbelow vnew<CR>
+nmap <leader>sk :leftabove new<CR>
+nmap <leader>sj :rightbelow new<CR>
+
 " Added from haridas on 04.05.2014
 " https://github.com/haridas/Dotfiles/blob/master/vim-files/vim/vimrc#L119
 "
-let mapleader = ","
-
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -120,14 +165,16 @@ map <C-S-tab> :tabprevious<cr>
 map <C-tab> :tabnext<cr>
 imap <C-S-tab> <ESC>:tabprevious<cr>i
 imap <C-tab> <ESC>:tabnext<cr>i
-"nmap <C-t> :tabnew<cr>
-"imap <C-t> <ESC>:tabnew<cr> 
-" map \tx for the console version as well
+
 if !has("gui_running")
-   nmap <Leader>tn :tabnext<cr>
-   nmap <Leader>tp :tabprevious<cr>
-   nmap <Leader><F4> :tabclose<cr>
+   nmap <leader>N :tabnext<cr>
+   nmap <leader>P :tabprevious<cr>
+   nmap <leader><F4> :tabclose<cr>
 end
+
+nnoremap <leader>b :bp<CR>
+nnoremap <leader>f :bn<CR>
+nnoremap <leader>g :e#<CR>
 
 "
 " diff undos command
@@ -137,9 +184,9 @@ nmap du :wincmd w<cr>:normal u<cr>:wincmd w<cr>
 "
 " Enable spellchecking conditionally
 "
-map <Leader>se :setlocal spell spelllang=en_us<CR>
-map <Leader>ss :setlocal spell spelllang=ro<CR>
-map <Leader>sn :setlocal nospell<CR>
+map <leader>se :setlocal spell spelllang=en_us<CR>
+map <leader>ss :setlocal spell spelllang=ro<CR>
+map <leader>sn :setlocal nospell<CR>
 
 " 
 " Configure tabs for the console version
@@ -307,14 +354,11 @@ call SetupVAM()
 " option1: au VimEnter * call SetupVAM()
 " option2: au GUIEnter * call SetupVAM()
 
-"call vam#ActivateAddons(["vim-haxe"])
 call vam#ActivateAddons(["github:tpope/vim-fugitive", "vim-airline", "ctrlp", "Syntastic", "Supertab", "neocomplcache", "Tagbar", "github:scrooloose/nerdtree"])
 
 let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " Mapping to NERDTree
 nnoremap <leader>n :NERDTreeToggle<cr>
@@ -326,7 +370,16 @@ hi MBENormal ctermfg=white
 
 " Ctrlp
 let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = 2
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+  \ 'fallback': 'locate -0 .'
+  \ }
+  ""\ 'fallback': 'find %s -type f | egrep -v "/\.(git|hg|svn)|solr|tmp/" | egrep -v "\.(png|exe|jpg|gif|jar|class|swp|swo|log|gitkep|keepme|so|o)$"'
 nnoremap <esc><C-P> :CtrlPTag<cr>
 
 " Tagbar key bindings."
@@ -366,3 +419,58 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+" ctags
+" Prevent automatic ctag updates
+let g:easytags_auto_update = 0
+let g:easytags_auto_highlight = 0
+let g:easytags_on_cursorhold = 0
+
+" Generate tags manually
+nmap <leader>tu :UpdateTags<CR>
+
+" Scan recursively, not just current file
+let g:easytags_autorecurse = 1
+" Follow symbolic links
+let g:easytags_resolve_links = 1
+
+" Toggle tagbar
+nmap <leader>tt :TagbarToggle<CR>
+" Close tagbar after jumping to a tag
+let g:tagbar_autoclose = 1
+
+" Ggrep
+let g:extradite_width = 60
+" Hide messy Ggrep output and copen automatically
+function! NonintrusiveGitGrep(term)
+  execute "copen"
+" Map 't' to open selected item in new tab
+  execute "nnoremap <silent> <buffer> t <C-W><CR><C-W>T"
+  execute "silent! Ggrep " . a:term
+  execute "redraw!"
+endfunction
+
+command! -nargs=1 GGrep call NonintrusiveGitGrep(<q-args>)
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gg :copen<CR>:GGrep
+nmap <leader>gl :Extradite!<CR>
+nmap <leader>gd :Gdiff<CR>
+nmap <leader>gb :Gblame<CR>
+nnoremap <silent> <C-\> :call NonintrusiveGitGrep(expand("<cword>"))<CR>
+vnoremap <silent> <C-\> "*y:call NonintrusiveGitGrep(@*)<CR>
+
+function! CommittedFiles()
+" Clear quickfix list
+  let qf_list = []
+" Find files committed in HEAD
+  let git_output = system("git diff-tree --no-commit-id --name-only -r HEAD\n")
+  for committed_file in split(git_output, "\n")
+    let qf_item = {'filename': committed_file}
+    call add(qf_list, qf_item)
+  endfor
+" Fill quickfix list with them
+  call setqflist(qf_list, '')
+endfunction
+
+" Show list of last-committed files
+nnoremap <silent> <leader>g? :call CommittedFiles()<CR>:copen<CR>

@@ -57,7 +57,7 @@ alias -s py=vim
 alias -s pdf=zathura
 
 # directory aliases
-hash -d down=~/Desktop/Downloads
+hash -d down=~/downloads
 
 # normal aliases
 alias ls='ls --color=auto'
