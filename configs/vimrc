@@ -374,7 +374,7 @@ let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_clear_cache_on_exit = 0
 " locate -r %s = matches files in current path
-" grep -Ev "\/[.][^/]*\/" = matches every path except ones which contain .word
+" grep -Ev "\/[.][^/]*\/" = exclude dotdirs for list
 " lastly, most used programming file extensions are matched
 let g:ctrlp_user_command = 'locate -r %s | grep -Ev "\/[.][^/]*\/" | grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|xml|svg|html|htm|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt)$"'
 "let g:ctrlp_user_command = {
