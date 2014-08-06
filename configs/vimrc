@@ -11,6 +11,10 @@ set smartindent
 set wildmenu
 set wildmode=longest,list,full
 
+set nobackup
+set nowb
+set noswapfile
+
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.swp,*.cache
 if has("win16") || has("win32")
@@ -355,7 +359,17 @@ call SetupVAM()
 " option1: au VimEnter * call SetupVAM()
 " option2: au GUIEnter * call SetupVAM()
 
-call vam#ActivateAddons(["github:tpope/vim-fugitive", "vim-airline", "ctrlp", "Syntastic", "Supertab", "neocomplcache", "Tagbar", "github:scrooloose/nerdtree"])
+call vam#ActivateAddons([
+    \ "github:tpope/vim-fugitive",
+    \ "vim-airline",
+    \ "ctrlp",
+    \ "github:FelikZ/ctrlp-py-matcher",
+    \ "Syntastic",
+    \ "Supertab",
+    \ "neocomplcache",
+    \ "Tagbar",
+    \ "github:scrooloose/nerdtree"
+\ ])
 
 let g:airline_powerline_fonts = 1
 
@@ -373,16 +387,28 @@ hi MBENormal ctermfg=white
 let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_lazy_update=1
+let g:ctrlp_by_filename=1
+" faster than default implementation for big projects
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+" Usefull when working on large projects
 " locate -r %s = matches files in current path
-" grep -Ev "\/[.][^/]*\/" = exclude dotdirs for list
+" grep -Ev "\/[.][^/]*\/" = exclude dotdirs
 " lastly, most used programming file extensions are matched
-let g:ctrlp_user_command = 'locate -r %s | grep -Ev "\/[.][^/]*\/" | grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|xml|svg|html|htm|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt)$"'
+let g:ctrlp_user_command = '
+    \ locate -r %s |
+    \ grep -Ev "\/[.][^/]*\/" |
+    \ grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|xml|svg|html|htm|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt|ini)$"'
+
+" Usefull when working on a project with git/mercurial
 "let g:ctrlp_user_command = {
 "  \ 'types': {
 "    \ 1: ['.git', 'cd %s && git ls-files'],
 "    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
 "    \ },
 "  \ }
+
 nnoremap <leader>f :CtrlP<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>T :CtrlPBufTag<cr>
