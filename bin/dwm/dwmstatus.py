@@ -139,9 +139,9 @@ class MemThread(ThreadCommon):
             str(stdout),re.M
         ).group
 
-        # 1-total, 2-used, 3-free, 4-shared, 5-buffers, 6-cached
-        used_mem = (int(fields(2)) - int(fields(5)) - int(fields(6)))
-        return "{:.0%}".format(used_mem / int(fields(1)))
+        # 1-total, 2-used, 3-free, 4-shared, 5-buffers, 6-available
+        used_mem = (int(fields(1)) - int(fields(6)))
+        return "{:.0%}".format(1 - (int(fields(6)) / int(fields(1))))
 
     def _run_loop(self):
         while self._ok_to_run:

@@ -19,7 +19,8 @@ fi
 
 numlockx &
 sh ~/.fehbg &
-dropboxd &
+dropbox &
 (mpd && sleep 3 && urxvt -e tmux -u attach -t 0) &
 
-exec dbus-launch python ~/bin/dwm/launcher.py
+#exec dbus-launch python ~/bin/dwm/launcher.py
+exec dbus-launch awesome

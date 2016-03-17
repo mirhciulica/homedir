@@ -120,6 +120,11 @@ nmap <leader>sl :rightbelow vnew<CR>
 nmap <leader>sk :leftabove new<CR>
 nmap <leader>sj :rightbelow new<CR>
 
+map <leader>h :wincmd h<CR>
+map <leader>j :wincmd j<CR>
+map <leader>k :wincmd k<CR>
+map <leader>l :wincmd l<CR>
+
 " Added from haridas on 04.05.2014
 " https://github.com/haridas/Dotfiles/blob/master/vim-files/vim/vimrc#L119
 "
@@ -368,7 +373,8 @@ call vam#ActivateAddons([
     \ "Supertab",
     \ "neocomplcache",
     \ "Tagbar",
-    \ "github:scrooloose/nerdtree"
+    \ "github:scrooloose/nerdtree",
+    \ "github:will133/vim-dirdiff"
 \ ])
 
 let g:airline_powerline_fonts = 1
@@ -390,24 +396,24 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_lazy_update=1
 let g:ctrlp_by_filename=1
 " faster than default implementation for big projects
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 " Usefull when working on large projects
 " locate -r %s = matches files in current path
 " grep -Ev "\/[.][^/]*\/" = exclude dotdirs
 " lastly, most used programming file extensions are matched
-let g:ctrlp_user_command = '
-    \ locate -r %s |
-    \ grep -Ev "\/[.][^/]*\/" |
-    \ grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|xml|svg|html|htm|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt|ini)$"'
+"let g:ctrlp_user_command = '
+"    \ locate -r %s |
+"    \ grep -Ev "\/[.][^/]*\/" |
+"    \ grep -E "\.(cpp|h|c|cxx|hxx|hpp|cs|java|as|pl|py|rb|php|js|json|sql|xml|svg|html|htm|tpl|css|cgi|asp|aspx|jsp|jspx|wss|do|nav|wiki|tex|txt|ini)$"'
 
 " Usefull when working on a project with git/mercurial
-"let g:ctrlp_user_command = {
-"  \ 'types': {
-"    \ 1: ['.git', 'cd %s && git ls-files'],
-"    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-"    \ },
-"  \ }
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+  \ }
 
 nnoremap <leader>f :CtrlP<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
@@ -419,8 +425,8 @@ nnoremap <leader>m :CtrlPMixed<cr>
 nnoremap <leader>B :CtrlPLine<cr>
 
 " Tagbar key bindings."
-nmap <leader>l <ESC>:TagbarToggle<cr>
-imap <leader>l <ESC>:TagbarToggle<cr>i
+nmap <leader>o <ESC>:TagbarToggle<cr>
+imap <leader>o <ESC>:TagbarToggle<cr>i
 
  " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
