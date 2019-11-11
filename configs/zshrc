@@ -68,7 +68,7 @@ alias grep='grep --color=auto'
 alias rm='rm -i'
 
 # maintenace aliases
-alias !="sudo"
+#alias !="sudo"
 alias install="sudo pacman -S"
 alias update="sudo pacman -Sy"
 alias upgrade="sudo pacman -Su"
@@ -81,6 +81,9 @@ alias clean="sudo pacman -Sc"
 alias search-i="sudo pacman -Qs"
 alias check-orphans="sudo pacman -Qdt"
 remove-orphans() { sudo pacman -Rscn $(pacman -Qtdq); }
+#
+# from @sicariusnoctis - https://aur.archlinux.org/packages/jdk/#comment-711444
+alias upgrade-aur-jdk="mkdir -p /tmp/btw-i-use-jdk && cd /tmp/btw-i-use-jdk && git clone https://aur.archlinux.org/jre.git && git clone https://aur.archlinux.org/jdk.git && cd jre && makepkg && cd ../jdk && makepkg -d && cd .. && sudo pacman -U jre/jre-*.pkg* jdk/jdk-*.pkg*"
 
 alias dus='du -sckx * | sort -nr'
 
@@ -121,3 +124,12 @@ sstatus() { sudo systemctl status $1 }
 sdisable() { sudo systemctl disable $1 }
 
 alias suicide='echo "How dare you? Kill yourserlf!"'
+
+
+export USE_CCACHE=1
+export ANDROID_CCACHE_DIR="/home/mirciulica/temp/ccache"
+export ANDROID_CCACHE_SIZE="15G"
+
+export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk

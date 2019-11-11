@@ -5,12 +5,13 @@
 ! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
 ! ----------------------------------------------------------------------------
 
-! Xft.antialias: true
-Xft.hinting: true
-Xft.hintstyle: hintslight
+Xft.antialias: 1
+Xft.hinting: 0
+Xft.hintstyle: hintlight
 Xft.lcdfilter: lcddefault
-Xft.rgba: rgb
-Xft.dpi: 99
+Xft.rgba: none
+Xft.dpi: 96
+!Xft.dpi: 141
 
 URxvt.scrollBar: false
 URxvt.scrollstyle: plain
@@ -18,9 +19,7 @@ URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.internalBorder: 0
 
-#URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=12:antialias=true:hinting=true:hintstyle=hintfull
-URxvt*font: xft:Inconsolata\ for\ Powerline:pixelsize=13 
-#URxvt.font: xft:DejaVu Sans Mono:pixelsize=12
+URxvt*font: xft:Meslo\ LG\ S\ DZ\ for\ Powerline:style=Book:size=9
 
 ! colors from bcat
 ! https://bbs.archlinux.org/viewtopic.php?pid=1084640#p1084640

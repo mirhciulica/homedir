@@ -1,7 +1,7 @@
 " Created 05.11.2009 by mirhciulica
 
 set autoindent
-set encoding=utf-8
+set encoding=utf8
 set hidden
 set nocompatible
 set showcmd
@@ -59,10 +59,10 @@ set title
 set foldcolumn=1
 
 set nowrap
-set textwidth=79
+set textwidth=100
 set formatoptions=qrn1
 try
-    set colorcolumn=80
+    set colorcolumn=100
 catch
 endtry
 
@@ -70,7 +70,7 @@ set bg=dark
 set grepprg=grep\ -nH\ $*
 set ofu=syntaxcomplete#Complete
 filetype plugin indent on
-setlocal tw=80
+setlocal tw=100
 let g:tex_flavor = "latex"
 
 if has("gui_running")
@@ -87,7 +87,7 @@ if has("gui_running")
     if has("win32")
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h9
     else
-        set guifont=Inconsolata\ for\ PowerLine\ Medium\ 10
+        set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline\ 9
     endif
 endif
 
@@ -164,8 +164,13 @@ set novb
 highlight RedundantSpaces ctermbg=red guibg=red
 match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
 
-set t_Co=256
+ set t_Co=256
 colorscheme molokai
+let g:molokai_original=1
+
+highlight ColorColumn ctermbg=black guibg=black
+highlight OverLength ctermfg=white guifg=white
+match OverLength /\%101v.\+/
 
 " tab navigation like firefox
 nmap <C-S-tab> :tabprevious<cr>
@@ -245,16 +250,17 @@ set modeline
 imap jj <Esc>
 
 autocmd FileType text       setlocal autoindent expandtab sts=4 sw=4
-autocmd FileType java 	    setlocal tw=78 cin foldmethod=marker
-autocmd FileType c,cpp 	    setlocal tw=78 cindent expandtab sts=4 sw=4
+autocmd FileType java 	    setlocal tw=100 cin foldmethod=marker
+autocmd FileType c,cpp 	    setlocal tw=100 cindent expandtab sts=4 sw=4
 autocmd FileType python     setlocal autoindent expandtab sts=4 sw=4
-autocmd FileType haskell    setlocal tw=72 sw=2 sts=2 et
-autocmd FileType tex	    setlocal tw=72 sw=2 sts=2 ai
+autocmd FileType haskell    setlocal tw=100 sw=2 sts=2 et
+autocmd FileType tex	    setlocal tw=100 sw=2 sts=2 ai
 autocmd FileType tex	    so ~/.vim/abbrevs.vim
-autocmd FileType php	    setlocal tw=80 cindent fo=croql expandtab sts=4 sw=4
+autocmd FileType php	    setlocal tw=100 cindent fo=croql expandtab sts=4 sw=4
 autocmd FileType html       setlocal autoindent expandtab sts=4 sw=4
 autocmd FileType xml        setlocal autoindent expandtab sts=4 sw=4
 autocmd FileType actionscript setlocal autoindent sts=4 sw=4 tw=100
+autocmd BufRead,BufNewFile *.tpl    set filetype=smarty
 autocmd BufRead,BufNewFile *.wiki   setlocal ft=creole
 autocmd BufRead,BufNewFile *.tex    setlocal ft=tex
 autocmd BufRead,BufNewFile *.cool   setlocal ft=cool
@@ -367,23 +373,26 @@ call SetupVAM()
 call vam#ActivateAddons([
     \ "github:tpope/vim-fugitive",
     \ "vim-airline",
-    \ "ctrlp",
+    \ "github:ctrlpvim/ctrlp.vim",
     \ "github:FelikZ/ctrlp-py-matcher",
     \ "Syntastic",
     \ "Supertab",
-    \ "neocomplcache",
+    \ "github:Shougo/neocomplete.vim",
     \ "Tagbar",
     \ "github:scrooloose/nerdtree",
-    \ "github:will133/vim-dirdiff"
+    \ "github:Xuyuanp/nerdtree-git-plugin",
+    \ "github:will133/vim-dirdiff",
+    \ "github:ryanoasis/vim-devicons"
 \ ])
 
 let g:airline_powerline_fonts = 1
-
 let g:airline#extensions#tabline#enabled = 1
 
 " Mapping to NERDTree
 nnoremap <leader>n :NERDTreeToggle<cr>
+let g:NERDTreeWinSize = 50
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
+autocmd FileType nerdtree setlocal nolist
 
 " Tab color settings to make it more visible.
 hi MBEChanged ctermfg=white
@@ -430,20 +439,45 @@ imap <leader>o <ESC>:TagbarToggle<cr>i
 
  " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
-" Use neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
- " Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*' 
 
-" SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
  " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -452,15 +486,18 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
 " Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " ctags
 " Prevent automatic ctag updates

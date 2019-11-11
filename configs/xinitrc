@@ -2,25 +2,29 @@
 #
 # ~/.xinitrc
 
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
-  done
-  unset f
-fi
+#if [ -d /etc/X11/xinit/xinitrc.d ]; then
+#  for f in /etc/X11/xinit/xinitrc.d/*; do
+#    [ -x "$f" ] && . "$f"
+#  done
+#  unset f
+#fi
 
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export EDITOR="vim"
 export VIRTUALENV_USE_DISTRIBUTE=1
+export LC_ALL=en_US.UTF-8
+export LANG="$LC_ALL"
 
 if [ -s ~/.Xmodmap ]; then
     xmodmap ~/.Xmodmap
 fi
 
+#nm-applet &
 numlockx &
-sh ~/.fehbg &
-dropbox &
-(mpd && sleep 3 && urxvt -e tmux -u attach -t 0) &
+#sh ~/.fehbg &
+#blueberry-tray &
+#(mpd && sleep 3 && urxvt -e tmux -u attach -t 0) &
+#(sleep 10 && dropbox-cli start) &
 
-#exec dbus-launch python ~/bin/dwm/launcher.py
-exec dbus-launch awesome
+#exec dbus-launch awesome
+exec dbus-launch gnome-session
